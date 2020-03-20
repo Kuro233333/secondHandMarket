@@ -13,16 +13,25 @@ const {
   logout
 } = require("../../controller/user");
 const userValidate = require("../../validator/user");
-const { genValidator } = require("../../middlewares/validator");
-const { isTest } = require("../../utils/env");
-const { loginCheck } = require("../../middlewares/loginChecks");
-const { getFollowers } = require("../../controller/user-relation");
+const {
+  genValidator
+} = require("../../middlewares/validator");
+const {
+  isTest
+} = require("../../utils/env");
+const {
+  loginCheck
+} = require("../../middlewares/loginChecks");
 
 router.prefix("/api/user");
 
 // 注册路由
 router.post("/register", genValidator(userValidate), async (ctx, next) => {
-  const { userName, password, gender } = ctx.request.body;
+  const {
+    userName,
+    password,
+    gender
+  } = ctx.request.body;
   ctx.body = await register({
     userName,
     password,
@@ -32,13 +41,18 @@ router.post("/register", genValidator(userValidate), async (ctx, next) => {
 
 // 用户名是否存在
 router.post("/isExist", async (ctx, next) => {
-  const { userName } = ctx.request.body;
+  const {
+    userName
+  } = ctx.request.body;
   ctx.body = await isExist(userName);
 });
 
 // 登录
 router.post("/login", async (ctx, next) => {
-  const { userName, password } = ctx.request.body;
+  const {
+    userName,
+    password
+  } = ctx.request.body;
   ctx.body = await login(ctx, userName, password);
 });
 
@@ -46,7 +60,9 @@ router.post("/login", async (ctx, next) => {
 router.post("/delete", loginCheck, async (ctx, next) => {
   if (isTest) {
     // 测试环境下，测试账号登录之后，删除自己
-    const { userName } = ctx.session.userInfo;
+    const {
+      userName
+    } = ctx.session.userInfo;
     ctx.body = await deleteCurUser(userName);
   }
 });
@@ -57,8 +73,16 @@ router.patch(
   loginCheck,
   genValidator(userValidate),
   async (ctx, next) => {
-    const { nickName, city, picture } = ctx.request.body;
-    ctx.body = await changeInfo(ctx, { nickName, city, picture });
+    const {
+      nickName,
+      city,
+      picture
+    } = ctx.request.body;
+    ctx.body = await changeInfo(ctx, {
+      nickName,
+      city,
+      picture
+    });
   }
 );
 
@@ -68,8 +92,13 @@ router.patch(
   loginCheck,
   genValidator(userValidate),
   async (ctx, next) => {
-    const { password, newPassword } = ctx.request.body;
-    const { userName } = ctx.session.userInfo;
+    const {
+      password,
+      newPassword
+    } = ctx.request.body;
+    const {
+      userName
+    } = ctx.session.userInfo;
     ctx.body = await changePassword(userName, password, newPassword);
   }
 );
@@ -77,18 +106,6 @@ router.patch(
 // 退出登录
 router.post("/logout", loginCheck, async (ctx, next) => {
   ctx.body = await logout(ctx);
-});
-
-// 获取 at 列表，即关注人列表
-router.get("/getAtList", loginCheck, async (ctx, next) => {
-  const { id: userId } = ctx.session.userInfo;
-  const result = await getFollowers(userId);
-  const { followersList } = result.data;
-  const list = followersList.map(user => {
-    return `${user.nickName} - ${user.userName}`;
-  });
-  // 格式如 ['张三 - zhangsan', '李四 - lisi', '昵称 - userName']
-  ctx.body = list;
 });
 
 module.exports = router;

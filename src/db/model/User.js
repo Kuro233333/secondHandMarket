@@ -3,7 +3,10 @@
  */
 
 const seq = require("../seq");
-const { STRING, DECIMAL } = require("../types");
+const {
+  STRING,
+  DECIMAL
+} = require("../types");
 
 // users
 const User = seq.define("user", {
@@ -20,7 +23,7 @@ const User = seq.define("user", {
   },
   realName: {
     type: STRING,
-    allowNull: false,
+    allowNull: true,
     comment: "用户真实姓名"
   },
   gender: {
@@ -43,7 +46,7 @@ const User = seq.define("user", {
   },
   class: {
     type: STRING,
-    comment: "用户所在班级"
+      comment: "用户所在班级"
   },
   dormitory: {
     type: STRING,
