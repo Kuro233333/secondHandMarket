@@ -1,17 +1,49 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%= title%></title>
-
+    <link href="/css/reset.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
+    <link href="/iconfont/iconfont.css" rel="stylesheet">
 
     <!-- jquery 要首先引入-->
     <script src="/js/jquery-3.4.1.min.js"></script>
     <!-- 封装的 ajax -->
     <script src="/js/my-ajax.js"></script>
 </head>
+
 <body>
+    <header>
+        <div class="content">
+            <a class="title" href="/">C2C</a>
+
+            <div class="search">
+                <input type="text" placeholder="商品查询" name="search" class="nav_search_input">
+                <i class="iconfont iconfangdajing"></i>
+            </div>
+
+            <div class="user">
+                <i class="iconfont iconyonghu"></i>
+                <button type="button" class="btn btn-link">登录</button>
+                <button type="button" class="btn btn-link">注册</button>
+            </div>
+        </div>
+    </header>
+    <div class="nav-box">
+        <nav class="nav nav-pills flex-column flex-sm-row">
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">首页</a>
+            <div>|</div>
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">商城</a>
+            <div>|</div>
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">求购商城</a>
+            <div>|</div>
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">反馈与意见</a>
+            <div>|</div>
+            <a class="flex-sm-fill text-sm-center nav-link" href="#">联系我们</a>
+        </nav>
+    </div>
