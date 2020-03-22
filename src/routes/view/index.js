@@ -39,4 +39,16 @@ router.get('/setting', loginRedirect, async (ctx, next) => {
     await ctx.render('setting', ctx.session.userInfo)
 })
 
+router.get('/mall', async (ctx, next) => {
+    await ctx.render('mall', ctx)
+})
+
+router.get('/good/:id', async (ctx, next) => {
+    await ctx.render('register', getLoginInfo(ctx))
+})
+
+router.get('/begmall', async (ctx, next) => {
+    await ctx.render('begmall', ctx)
+})
+
 module.exports = router

@@ -1,0 +1,64 @@
+<%- include('layout/header', { title: '商城' })%>
+<h4 style="text-align: center;margin: 20px 0;">商品</h4>
+<div class="mall">
+    <div class="left">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-primary">最热</button>
+            <button type="button" class="btn btn-light">最新</button>
+        </div>
+        <ul class="type-list">
+            <li class="type">数码科技</li>
+            <li class="type">影音家电</li>
+            <li class="type">鞋服配饰</li>
+            <li class="type">运动代步</li>
+            <li class="type">书籍文具</li>
+            <li class="type">其他</li>
+        </ul>
+        <div class="type-box" style="display: none;">
+            <div class="type-block">
+                <div class="type-name"><span>1</span>手机</div>
+                <button type="button" class="btn btn-link">苹果</button>
+                <button type="button" class="btn btn-link">苹果</button>
+                <button type="button" class="btn btn-link">苹果</button>
+                <button type="button" class="btn btn-link">苹果</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="right">
+        <ul class="product-list">
+            <li class="item">
+                <div onmouseover="handleMouseOver(this)" onmouseout="handleMouseOut(this)" class="pic-box">
+                    <img width="100%" height="160"
+                        src="http://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1573714515.51751293.jpg" alt=""
+                        srcset="">
+                    <div>
+                        <p>有意者联系：2312</p>
+                    </div>
+                </div>
+                <div class="title">
+                    huawei P40
+                </div>
+                <div class="prize">
+                    ￥ 123.0元
+                </div>
+                <button type="button" class="btn btn-primary">加入购物车</button>
+            </li>
+        </ul>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<%- include('layout/footer')%>

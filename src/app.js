@@ -8,7 +8,7 @@ const logger = require('koa-logger')
 const Koa_Session = require('koa-session');
 const koaStatic = require('koa-static')
 const index = require('./routes/index')
-const userViewRouter = require('./routes/view/user')
+const viewRouter = require('./routes/view')
 const userAPIRouter = require('./routes/api/user')
 // error handler
 onerror(app)
@@ -60,7 +60,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
-app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(viewRouter.routes(), viewRouter.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
