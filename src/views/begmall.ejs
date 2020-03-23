@@ -1,5 +1,67 @@
-<%- include('layout/header', { title: '求购商城' })%>
+<%- include('layout/header', { title: '商城' })%>
+<h4 style="text-align: center;margin: 20px 0;">求购商品</h4>
+<div class="mall">
+    <div class="left">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-primary">最热</button>
+            <button type="button" class="btn btn-light">最新</button>
+        </div>
+        <ul class="type-list">
+            <li class="type">数码科技</li>
+            <li class="type">影音家电</li>
+            <li class="type">鞋服配饰</li>
+            <li class="type">运动代步</li>
+            <li class="type">书籍文具</li>
+            <li class="type">其他</li>
+        </ul>
+        <div class="type-box" style="display: none;">
+            <div class="type-block">
+                <div class="type-name"><span>1</span>手机</div>
+                <button type="button" class="btn btn-link">苹果</button>
+                <button type="button" class="btn btn-link">苹果</button>
+                <button type="button" class="btn btn-link">苹果</button>
+                <button type="button" class="btn btn-link">苹果</button>
+            </div>
+        </div>
 
-begmall page
+    </div>
+    <div class="right">
+        <ul class="begs-list">
+            <li class="item">
+                <div class="form-item">
+                    <span class="label">商品名：</span><span class="label">R4-4</span>
+                </div>
+                <div class="form-item">
+                    <span class="label">数量：</span><span class="label">1</span>
+                </div>
+                <div class="form-item">
+                    <span class="label">单价：</span><span class="label">￥100.00元</span>
+                </div>
+                <div class="form-item">
+                    <span class="label">分类：</span><span class="label">其他-其他-其他</span>
+                </div>
+                <div class="form-item">
+                    <div class="label">分类：</div>
+                    <textarea rows='4' cols='30'></textarea>
+                </div>
+                <button style="margin-left: 68px;" type="button" class="btn btn-primary">点击联系</button>
+            </li>
+
+        </ul>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
 <%- include('layout/footer')%>

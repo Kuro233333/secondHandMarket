@@ -252,7 +252,7 @@ footer p {
 }
 
 .mall .right {
-    width: 70%;
+    width: 80%;
 }
 
 .mall .type-list {
@@ -316,4 +316,25 @@ footer p {
 
 .mall .right .pagination {
     margin: 20px auto;
+}
+
+.begs-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.begs-list .item {
+    width: 270px;
+    height: 330px;
+    background-color: white;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.begs-list .item .form-item {
+    margin-bottom: 5px;
 }
