@@ -7,9 +7,11 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const Koa_Session = require('koa-session');
 const koaStatic = require('koa-static')
+const path = require('path')
 const index = require('./routes/index')
 const viewRouter = require('./routes/view')
 const userAPIRouter = require('./routes/api/user')
+const utilsAPIRouter = require('./routes/api/utils')
 // error handler
 onerror(app)
 
@@ -44,6 +46,7 @@ app.use(bodyparser({
 app.use(json())
 app.use(logger())
 app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
@@ -61,6 +64,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(viewRouter.routes(), viewRouter.allowedMethods())
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
