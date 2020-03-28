@@ -27,6 +27,10 @@ function getLoginInfo(ctx) {
     return data
 }
 
+router.get('/', async (ctx, next) => {
+    await ctx.render('index', getLoginInfo(ctx))
+})
+
 router.get('/login', async (ctx, next) => {
     await ctx.render('login', getLoginInfo(ctx))
 })
@@ -36,7 +40,11 @@ router.get('/register', async (ctx, next) => {
 })
 
 router.get('/setting', loginRedirect, async (ctx, next) => {
-    await ctx.render('setting', ctx.session.userInfo)
+    console.log(ctx.session.userInfo)
+    var userInfo = Object.assign({
+        isLogin: true
+    }, ctx.session.userInfo)
+    await ctx.render('setting', userInfo)
 })
 
 router.get('/mall', async (ctx, next) => {

@@ -34,6 +34,7 @@ const User = seq.define("user", {
   },
   phone: {
     type: STRING,
+    defaultValue: "",
     comment: "用户手机号码"
   },
   studentNo: {
@@ -42,6 +43,7 @@ const User = seq.define("user", {
   },
   avatar: {
     type: STRING,
+    defaultValue: "",
     comment: "头像，图片地址"
   },
   class: {

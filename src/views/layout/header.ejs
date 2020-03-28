@@ -28,9 +28,22 @@
             </div>
 
             <div class="user">
-                <i class="iconfont iconyonghu"></i>
-                <button type="button" class="btn btn-link">登录</button>
-                <button type="button" class="btn btn-link">注册</button>
+                <% if (locals.isLogin) { %>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="iconfont iconyonghu"></i><%= locals.userName%>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/setting">设置</a>
+                    <a id="btn-logout" class="dropdown-item">退出</a>
+                </div>
+                <% } else { %>
+                <button onclick="window.location.href='/login'" type="button" class="btn btn-link">登录</button>
+                <button onclick="window.location.href='/register'" type="button" class="btn btn-link">注册</button>
+                <% } %>
             </div>
         </div>
     </header>
@@ -47,3 +60,22 @@
             <a class="flex-sm-fill text-sm-center nav-link" href="#">联系我们</a>
         </nav>
     </div>
+
+    <script>
+        $(function () {
+            // 退出登录
+            $('#btn-logout').click(function () {
+                if (confirm('是否确定退出登录？') === false) {
+                    return
+                }
+                ajax.post('/api/user/logout', function (err, data) {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                    alert('已成功退出')
+                    location.href = '/'
+                })
+            })
+        })
+    </script>
