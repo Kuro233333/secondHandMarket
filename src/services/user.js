@@ -86,9 +86,9 @@ async function deleteUser(userName) {
  */
 async function updateUser({
     newPassword,
-    newNickName,
-    newPicture,
-    newCity
+    newRealName,
+    newAvatar,
+    newPhone
 }, {
     userName,
     password
@@ -98,14 +98,14 @@ async function updateUser({
     if (newPassword) {
         updateData.password = newPassword
     }
-    if (newNickName) {
-        updateData.nickName = newNickName
+    if (newRealName) {
+        updateData.realName = newRealName
     }
-    if (newPicture) {
-        updateData.picture = newPicture
+    if (newAvatar) {
+        updateData.avatar = newAvatar
     }
-    if (newCity) {
-        updateData.city = newCity
+    if (newPhone) {
+        updateData.phone = newPhone
     }
 
     // 拼接查询条件
@@ -115,11 +115,12 @@ async function updateUser({
     if (password) {
         whereData.password = password
     }
-
+    console.log(updateData, whereData)
     // 执行修改
     const result = await User.update(updateData, {
         where: whereData
     })
+    console.log(result)
     return result[0] > 0 // 修改的行数
 }
 

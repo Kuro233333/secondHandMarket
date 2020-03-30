@@ -112,30 +112,30 @@ async function deleteCurUser(userName) {
  * @param {string} picture 头像
  */
 async function changeInfo(ctx, {
-    nickName,
-    city,
-    picture
+    realName,
+    phone,
+    avatar
 }) {
     const {
         userName
     } = ctx.session.userInfo
-    if (!nickName) {
-        nickName = userName
+    if (!realName) {
+        realName = userName
     }
 
     const result = await updateUser({
-        newNickName: nickName,
-        newCity: city,
-        newPicture: picture
+        newNickName: realName,
+        newPhone: phone,
+        newAvatar: avatar
     }, {
         userName
     })
     if (result) {
         // 执行成功
         Object.assign(ctx.session.userInfo, {
-            nickName,
-            city,
-            picture
+            realName,
+            phone,
+            avatar
         })
         // 返回
         return new SuccessModel()

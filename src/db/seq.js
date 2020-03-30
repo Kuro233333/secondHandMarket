@@ -3,13 +3,27 @@
  */
 
 const Sequelize = require("sequelize");
-const { MYSQL_CONF } = require("../conf/db");
-const { isProd, isTest } = require("../utils/env");
+const {
+  MYSQL_CONF
+} = require("../conf/db");
+const {
+  isProd,
+  isTest
+} = require("../utils/env");
 
-const { host, user, password, database } = MYSQL_CONF;
+const {
+  host,
+  user,
+  password,
+  database
+} = MYSQL_CONF;
 const conf = {
   host,
-  dialect: "mysql"
+  dialect: "mysql",
+  define: {
+    'underscored': true,
+    'charset': 'utf8mb4'
+  }
 };
 
 if (isTest) {

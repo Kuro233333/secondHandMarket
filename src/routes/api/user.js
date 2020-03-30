@@ -74,14 +74,14 @@ router.patch(
   genValidator(userValidate),
   async (ctx, next) => {
     const {
-      nickName,
-      city,
-      picture
+      realName,
+      phone,
+      avatar
     } = ctx.request.body;
     ctx.body = await changeInfo(ctx, {
-      nickName,
-      city,
-      picture
+      realName,
+      phone,
+      avatar
     });
   }
 );
