@@ -71,17 +71,24 @@ router.post("/delete", loginCheck, async (ctx, next) => {
 router.patch(
   "/changeInfo",
   loginCheck,
-  genValidator(userValidate),
   async (ctx, next) => {
     const {
       realName,
       phone,
-      avatar
+      avatar,
+      gender,
+      studentNo,
+      dormitory,
+      clazz
     } = ctx.request.body;
     ctx.body = await changeInfo(ctx, {
       realName,
       phone,
-      avatar
+      avatar,
+      gender,
+      studentNo,
+      dormitory,
+      clazz
     });
   }
 );

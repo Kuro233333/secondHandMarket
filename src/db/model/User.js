@@ -43,12 +43,11 @@ const User = seq.define("user", {
   },
   avatar: {
     type: STRING,
-    defaultValue: "",
     comment: "头像，图片地址"
   },
-  class: {
+  clazz: {
     type: STRING,
-      comment: "用户所在班级"
+    comment: "用户所在班级"
   },
   dormitory: {
     type: STRING,

@@ -107,14 +107,21 @@ async function deleteCurUser(userName) {
 /**
  * 修改个人信息
  * @param {Object} ctx ctx
- * @param {string} nickName 昵称
- * @param {string} city 城市
- * @param {string} picture 头像
+ * @param {string} realName 真实姓名
+ * @param {string} phone 电话
+ * @param {string} avatar 头像
+ * @param {string} gender 性别
+ * @param {string} studentNo 学号
+ * @param {string} dormitory 宿舍号
  */
 async function changeInfo(ctx, {
     realName,
     phone,
-    avatar
+    avatar,
+    gender,
+    studentNo,
+    dormitory,
+    clazz
 }) {
     const {
         userName
@@ -126,7 +133,11 @@ async function changeInfo(ctx, {
     const result = await updateUser({
         newNickName: realName,
         newPhone: phone,
-        newAvatar: avatar
+        newAvatar: avatar,
+        newGender: gender,
+        newStudentNo: studentNo,
+        newDormitory: dormitory,
+        newClazz: clazz
     }, {
         userName
     })
@@ -135,7 +146,11 @@ async function changeInfo(ctx, {
         Object.assign(ctx.session.userInfo, {
             realName,
             phone,
-            avatar
+            avatar,
+            gender,
+            studentNo,
+            dormitory,
+            clazz
         })
         // 返回
         return new SuccessModel()

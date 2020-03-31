@@ -27,7 +27,7 @@ async function getUserInfo(userName, password) {
 
     // 查询
     const result = await User.findOne({
-        attributes: ['id', 'userName', 'realName', 'avatar', 'gender', 'phone', 'studentNo', 'class', 'dormitory'],
+        attributes: ['id', 'userName', 'realName', 'avatar', 'gender', 'phone', 'studentNo', 'clazz', 'dormitory'],
         where: whereOpt
     })
     if (result == null) {
@@ -88,7 +88,11 @@ async function updateUser({
     newPassword,
     newRealName,
     newAvatar,
-    newPhone
+    newPhone,
+    newGender,
+    newStudentNo,
+    newClazz,
+    newDormitory
 }, {
     userName,
     password
@@ -106,6 +110,18 @@ async function updateUser({
     }
     if (newPhone) {
         updateData.phone = newPhone
+    }
+    if (newGender) {
+        updateData.gender = newGender
+    }
+    if (newStudentNo) {
+        updateData.studentNo = newStudentNo
+    }
+    if (newDormitory) {
+        updateData.dormitory = newDormitory
+    }
+    if (newClazz) {
+        updateData.clazz = newClazz
     }
 
     // 拼接查询条件

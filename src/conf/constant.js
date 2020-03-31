@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  DEFAULT_PICTURE: "https://dwz.cn/rnTnftZs",
+  DEFAULT_PICTURE: "/defaultAvatar.jpg",
   PAGE_SIZE: 5,
 
   // 正则表达式，匹配 '@昵称 - userName'

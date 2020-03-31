@@ -338,3 +338,12 @@ footer p {
 .begs-list .item .form-item {
     margin-bottom: 5px;
 }
+
+.select-wrapper {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+.select-wrapper>div {
+    width: 100% !important;
+}

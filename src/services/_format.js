@@ -15,8 +15,8 @@ const {
  * @param {Object} obj 用户对象
  */
 function _formatUserPicture(obj) {
-    if (obj.picture == null) {
-        obj.picture = DEFAULT_PICTURE
+    if (obj.avatar == null) {
+        obj.avatar = DEFAULT_PICTURE
     }
     return obj
 }
