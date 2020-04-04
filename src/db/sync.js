@@ -4,6 +4,11 @@
 
 const seq = require("./seq");
 
+
+const {
+  createUser
+} = require('../services/user')
+
 require("./model/index");
 
 // 测试连接
@@ -16,8 +21,12 @@ seq
     console.log("auth err");
   });
 
+
+
 // 执行同步
-seq.sync({ force: true }).then(() => {
+seq.sync({
+  force: true
+}).then(() => {
   console.log("sync ok");
   process.exit();
 });

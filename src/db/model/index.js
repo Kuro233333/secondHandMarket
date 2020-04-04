@@ -7,11 +7,13 @@ const Good = require("./Good");
 const GoodLeave = require("./GoodLeave");
 const Cart = require("./Cart");
 const Bought = require("./Bought");
+const GoodType = require("./GoodType");
 
 module.exports = {
   User,
   Good,
   GoodLeave,
   Cart,
-  Bought
+  Bought,
+  GoodType
 };

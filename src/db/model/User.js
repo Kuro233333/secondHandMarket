@@ -55,4 +55,15 @@ const User = seq.define("user", {
   }
 });
 
+
+// // init
+// User.create({
+//   userName: "kuro2",
+//   password: "123",
+//   gender: 3,
+//   realName: "kuro2"
+// }).then(result => {
+//   console.log("data", result.dataValues)
+// })
+
 module.exports = User;
