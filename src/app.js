@@ -11,6 +11,7 @@ const path = require('path')
 const index = require('./routes/index')
 const viewRouter = require('./routes/view')
 const userAPIRouter = require('./routes/api/user')
+const goodAPIRouter = require('./routes/api/good')
 const utilsAPIRouter = require('./routes/api/utils')
 // error handler
 onerror(app)
@@ -63,6 +64,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(goodAPIRouter.routes(), goodAPIRouter.allowedMethods())
 app.use(viewRouter.routes(), viewRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 // error-handling
