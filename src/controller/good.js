@@ -3,7 +3,8 @@
  */
 
 const {
-    getGoodTypes
+    getGoodTypes,
+    getGoods
 } = require('../services/good')
 const {
     SuccessModel,
@@ -40,12 +41,44 @@ async function getGoodTypesList() {
         return new SuccessModel(tree(goodTypeList))
     } else {
         // { errno: 10003, message: '用户名未存在' }
-        return new ErrorModel('123')
+        return new ErrorModel('获取分类列表失败')
     }
 
 
 }
 
+/**
+ * 获取商品列表
+ * @param {string} filter new or hot 最新最热排序
+ * @param {number} pageSize 每页多少条
+ * @param {number} pageIndex 第几页
+ * @param {string} type 商品所属类别
+ */
+async function getGoodList({
+    filter,
+    pageSize,
+    pageIndex,
+    type
+}) {
+
+    const goodList = await getGoods({
+        filter,
+        pageIndex,
+        pageSize,
+        type
+    })
+    if (goodList) {
+        console.log(goodList)
+        // { errno: 0, data: {....} }
+        return new SuccessModel(goodList)
+    } else {
+        // { errno: 10003, message: '用户名未存在' }
+        return new ErrorModel('123')
+    }
+
+}
+
 module.exports = {
-    getGoodTypesList
+    getGoodTypesList,
+    getGoodList
 }

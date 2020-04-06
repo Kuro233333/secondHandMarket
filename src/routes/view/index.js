@@ -52,11 +52,23 @@ router.get('/mall', async (ctx, next) => {
 })
 
 router.get('/good/:id', async (ctx, next) => {
-    await ctx.render('register', getLoginInfo(ctx))
+    await ctx.render('detail', getLoginInfo(ctx))
 })
 
 router.get('/begmall', async (ctx, next) => {
     await ctx.render('begmall', ctx)
+})
+
+router.get('/cart', async (ctx, next) => {
+    await ctx.render('cart', getLoginInfo(ctx))
+})
+
+router.get('/mygood', async (ctx, next) => {
+    await ctx.render('mygood', getLoginInfo(ctx))
+})
+
+router.get('/mybeg', async (ctx, next) => {
+    await ctx.render('mybeg', getLoginInfo(ctx))
 })
 
 module.exports = router

@@ -4,7 +4,8 @@
 
 const router = require("koa-router")();
 const {
-    getGoodTypesList
+    getGoodTypesList,
+    getGoodList
 } = require("../../controller/good");
 const userValidate = require("../../validator/user");
 const {
@@ -22,6 +23,22 @@ router.prefix("/api/good");
 // 注册路由
 router.get("/types", async (ctx, next) => {
     const result = await getGoodTypesList()
+    ctx.body = result
+});
+
+router.get("/list", async (ctx, next) => {
+    let {
+        pageIndex,
+        pageSize,
+        filter,
+        type
+    } = ctx.params
+    const result = await getGoodList({
+        pageIndex,
+        pageSize,
+        filter,
+        type
+    })
     ctx.body = result
 });
 

@@ -13,6 +13,7 @@ const viewRouter = require('./routes/view')
 const userAPIRouter = require('./routes/api/user')
 const goodAPIRouter = require('./routes/api/good')
 const utilsAPIRouter = require('./routes/api/utils')
+const errorViewRouter = require('./routes/view/error')
 // error handler
 onerror(app)
 
@@ -67,6 +68,7 @@ app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(goodAPIRouter.routes(), goodAPIRouter.allowedMethods())
 app.use(viewRouter.routes(), viewRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 404 路由注册到最后面
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

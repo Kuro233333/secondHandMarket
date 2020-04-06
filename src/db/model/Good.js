@@ -64,6 +64,12 @@ const Good = seq.define("good", {
     allowNull: true,
     comment: "商品的图片地址"
   },
+  hot: {
+    type: INTEGER,
+    allowNull: false,
+    defaultValue: 1,
+    comment: "商品热度"
+  }
 });
 
 module.exports = Good;
