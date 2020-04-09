@@ -71,4 +71,14 @@ router.get('/mybeg', async (ctx, next) => {
     await ctx.render('mybeg', getLoginInfo(ctx))
 })
 
+
+router.get('/good/edit/:id', async (ctx, next) => {
+    await ctx.render('mygoodForm', getLoginInfo(ctx))
+})
+router.get('/addgood', async (ctx, next) => {
+    await ctx.render('mygoodForm', getLoginInfo(ctx))
+})
+
+
+
 module.exports = router

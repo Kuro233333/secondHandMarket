@@ -347,3 +347,27 @@ footer p {
 .select-wrapper>div {
     width: 100% !important;
 }
+
+/*mygood*/
+.mygood-content {
+    margin: 20px auto;
+}
+
+.tools {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.iconbianji,
+.iconshanchu {
+    font-size: 24px;
+    cursor: pointer;
+}
+.iconbianji:hover{
+    color:#007bff;
+}
+.iconshanchu:hover{
+    color:#dc3545;
+}
