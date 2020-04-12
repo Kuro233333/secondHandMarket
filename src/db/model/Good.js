@@ -26,10 +26,15 @@ const Good = seq.define("good", {
     allowNull: false,
     comment: "商品价格"
   },
-  sort: {
+  sort1: {
     type: STRING,
     allowNull: false,
-    comment: "商品类别"
+    comment: "商品一级类别"
+  },
+  sort2: {
+    type: STRING,
+    allowNull: false,
+    comment: "商品二级类别"
   },
   count: {
     type: INTEGER,

@@ -99,13 +99,14 @@ async function getGoods({
 
 /**
  * 创建商品
- * @param {Object} param0 创建商品的数据 { userId, content, image }
+ * @param {Object} param0 创建商品的数据 { name,level,price,sort,count,remark,image }
  */
 async function createGood({
     name,
     level,
     price,
-    sort,
+    sort1,
+    sort2,
     count,
     remark,
     image
@@ -114,7 +115,8 @@ async function createGood({
         name,
         level,
         price,
-        sort,
+        sort1,
+        sort2,
         count,
         remark,
         image

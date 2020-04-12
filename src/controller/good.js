@@ -5,6 +5,7 @@
 const {
     getGoodTypes,
     getGoods,
+    createGood,
     createTypes,
     deleteType
 } = require('../services/good')
@@ -120,8 +121,51 @@ async function getGoodList({
 
 }
 
+
+async function addGood({
+    name,
+    level,
+    price,
+    sort1,
+    sort2,
+    count,
+    remark,
+    image
+}) {
+    console.log("!@3213",
+        name,
+        level,
+        price,
+        sort1,
+        sort2,
+        count,
+        remark,
+        image
+    )
+    const goodList = await createGood({
+        name,
+        level,
+        price,
+        sort1,
+        sort2,
+        count,
+        remark,
+        image
+    })
+    if (goodList) {
+        console.log(goodList)
+        // { errno: 0, data: {....} }
+        return new SuccessModel(goodList)
+    } else {
+        // { errno: 10003, message: '用户名未存在' }
+        return new ErrorModel('123')
+    }
+
+}
+
 module.exports = {
     getGoodTypesList,
     getGoodList,
-    saveTypes
+    saveTypes,
+    addGood
 }

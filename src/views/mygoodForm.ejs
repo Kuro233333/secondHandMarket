@@ -9,13 +9,13 @@
                 <div class="form-group row">
                     <label for="input-real" class="col-sm-2 col-form-label">商品名</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="input-real" placeholder="请输入商品名" value="">
+                        <input type="text" class="form-control" id="input-name" placeholder="请输入商品名">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="input-real" class="col-sm-2 col-form-label">成色</label>
                     <div class="col-sm-6">
-                        <select class="form-control" id="gender-select">
+                        <select class="form-control" id="select-level">
                             <option value="1">九成</option>
                             <option value="2">八成</option>
                             <option value="3">七成</option>
@@ -27,20 +27,20 @@
                 <div class="form-group row">
                     <label for="input-real" class="col-sm-2 col-form-label">单价</label>
                     <div class="col-sm-10" style="display: flex;align-items: center;">
-                        <input type="text" class="form-control" id="input-real" placeholder="请输入单价" value="">
+                        <input type="text" class="form-control" id="input-price" placeholder="请输入单价" value="">
                         RMB（.00）
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="input-real" class="col-sm-2 col-form-label">数量</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="input-real" placeholder="请输入数量" value="">
+                        <input type="text" class="form-control" id="input-count" placeholder="请输入数量" value="">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="input-real" class="col-sm-2 col-form-label">详情</label>
                     <div class="col-sm-10">
-                        <textarea rows="3" cols="20" class="form-control" id="input-real"></textarea>
+                        <textarea rows="3" cols="20" class="form-control" id="input-remark"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <center><button style="margin-bottom: 50px;" type="submit" class="btn btn-primary"
-                        id="btn-submit-info">保存</button></center>
+                        id="save-btn">保存</button></center>
             </form>
 
         </div> <!-- 左侧结束 -->
@@ -111,6 +111,37 @@
                 $imgPicture.css("display", "block")
             })
         })
+
+
+        var $saveBtn = $('#save-btn')
+        $saveBtn.click(function () {
+            var name = $("#input-name").val()
+            var level = $("#select-level").val()
+            var price = $("#input-price").val()
+            var sort1 = $("#type-select-1").val()
+            var sort2 = $("#type-select-2").val()
+            var count = parseInt($("#input-count").val())
+            var remark = $("#input-remark").val()
+            var image = $imgPicture.attr('src')
+            ajax.post('/api/good/add', {
+                name,
+                level,
+                price,
+                sort1,
+                sort2,
+                count,
+                remark,
+                image
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                alert('创建成功')
+            })
+        })
+
+
     })
 </script>
 
