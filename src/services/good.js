@@ -16,7 +16,7 @@ const {
 async function getGoodTypes() {
     // 查询
     const resultList = await GoodType.findAll({
-        attributes: ['id', 'parentId', 'level', 'name']
+        attributes: ['id', 'pid', 'name']
     })
     if (resultList == null) {
         // 未找到
@@ -24,6 +24,27 @@ async function getGoodTypes() {
     }
 
     return resultList.map(item => (item.dataValues))
+}
+
+/**
+ * 创建商品分类
+ */
+async function createTypes(typeArr) {
+    const result = await GoodType.bulkCreate(typeArr)
+    return result
+}
+
+/**
+ * 删除商品分类
+ */
+async function deleteType() {
+    const result = await GoodType.destroy({
+        truncate: true,
+        limit: 100
+    })
+    const data = result.dataValues
+
+    return data
 }
 
 /**
@@ -76,7 +97,35 @@ async function getGoods({
     }
 }
 
+/**
+ * 创建商品
+ * @param {Object} param0 创建商品的数据 { userId, content, image }
+ */
+async function createGood({
+    name,
+    level,
+    price,
+    sort,
+    count,
+    remark,
+    image
+}) {
+    const result = await Good.create({
+        name,
+        level,
+        price,
+        sort,
+        count,
+        remark,
+        image
+    })
+    return result.dataValues
+}
+
 module.exports = {
     getGoodTypes,
-    getGoods
+    getGoods,
+    createGood,
+    createTypes,
+    deleteType
 }

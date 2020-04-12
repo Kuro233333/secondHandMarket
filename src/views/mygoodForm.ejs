@@ -2,14 +2,115 @@
 
 <div class="container margin-top-20">
     <div class="row">
-        商品设置
+        <!-- 左侧 -->
+        <div class="col-7">
+            <h5 class="margin-bottom-10">基本信息</h5>
+            <form>
+                <div class="form-group row">
+                    <label for="input-real" class="col-sm-2 col-form-label">商品名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="input-real" placeholder="请输入商品名" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-real" class="col-sm-2 col-form-label">成色</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="gender-select">
+                            <option value="1">九成</option>
+                            <option value="2">八成</option>
+                            <option value="3">七成</option>
+                            <option value="3">六成</option>
+                            <option value="3">五成</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-real" class="col-sm-2 col-form-label">单价</label>
+                    <div class="col-sm-10" style="display: flex;align-items: center;">
+                        <input type="text" class="form-control" id="input-real" placeholder="请输入单价" value="">
+                        RMB（.00）
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-real" class="col-sm-2 col-form-label">数量</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="input-real" placeholder="请输入数量" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-real" class="col-sm-2 col-form-label">详情</label>
+                    <div class="col-sm-10">
+                        <textarea rows="3" cols="20" class="form-control" id="input-real"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-real" class="col-sm-2 col-form-label">分类</label>
+                    <div class="col-sm-9" style="display: flex;">
+                        <select class="form-control" id="type-select-1">
+                            <% typesData.forEach(function(item,idx){%>
+                            <option value=<%= item.id %>><%= item.name %> </option>
+                            <% }) %>
+                        </select>
+                        <div style="width: 40px;line-height: 36px;margin:0 5px;">——</div>
+                        <select class="form-control" id="type-select-2">
+                            <% typesData[0].children.forEach(function(item,idx){%>
+                            <option value="<%= item.id %>"><%= item.name %> </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="file-picture" class="col-sm-2 col-form-label">图片</label>
+                    <div class="col-sm-10">
+                        <img src="" style="width: 250px;display:none;" id="img-avatar" />
+                        <input style="margin-top: 5px;" type="file" class="form-control-file" accept="image/*"
+                            id="file-picture">
+                    </div>
+                </div>
+                <center><button style="margin-bottom: 50px;" type="submit" class="btn btn-primary"
+                        id="btn-submit-info">保存</button></center>
+            </form>
+
+        </div> <!-- 左侧结束 -->
     </div>
 
 </div>
 
 <script>
     $(function () {
-        
+        $("#type-select-1").change(function () {
+            console.log($("#type-select-1").val())
+            $("#type-select-2 option").remove();
+            var typeData = JSON.parse('<%- JSON.stringify(typesData) %>')
+            console.log(typeData)
+            typeData.forEach(item => {
+                console.log(item.id, $("#type-select-1").val())
+                if (item.id == $("#type-select-1").val()) {
+                    console.log(item)
+                    item.children.forEach(child => {
+                        $("#type-select-2").append("<option value=" + child.id + ">" +
+                            child.name + "</option>");
+                    })
+                }
+            });
+        });
+
+        // 上传图片
+        var $imgPicture = $('#img-avatar')
+        var $filePicture = $('#file-picture')
+        $filePicture.change(function (e) {
+            var file = $filePicture[0].files[0]
+            ajax.upload('/api/utils/upload', file, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                console.log(data)
+                // 成功
+                $imgPicture.attr('src', data.url)
+                $imgPicture.css("display", "block")
+            })
+        })
     })
 </script>
 

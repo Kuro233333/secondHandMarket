@@ -11,16 +11,10 @@ const {
 
 // GoodType
 const GoodType = seq.define("GoodType", {
-  parentId: {
+  pid: {
     type: STRING,
     allowNull: false,
     comment: "父ID"
-  },
-  level: {
-    type: DECIMAL,
-    allowNull: false,
-    defaultValue: 1,
-    comment: "分类层级"
   },
   name: {
     type: STRING,

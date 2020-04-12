@@ -1,0 +1,128 @@
+<%- include('layout/header', { title: '二手交易商城 - 设置' })%>
+
+<div class="container margin-top-20">
+    <div style="display: flex; align-items: center;justify-content: space-between;">
+        <h5 class="margin-bottom-10">分类设置</h5>
+        <div>
+            <button id="add-btn" type="submit" class="btn btn-success">增加</button>
+            <button id="save-btn" type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+    <% typesData.forEach(function(item,idx){%>
+    <div class="row row-type margin-top-10">
+        <div class="col-5">
+            <form>
+                <div class="form-group row">
+                    <label for="input-one" class="col-sm-3 col-form-label" style="text-align: right;">一级分类</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control one-type" id="input-one" placeholder="请输入一级分类"
+                            value="<%= item.name %> ">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+            <form>
+                <div class="form-group row">
+                    <label for="input-two" class="col-sm-6 col-form-label"
+                        style="text-align: right;">二级分类（每一行，为一类）</label>
+                    <div class="col-sm-6">
+                        <textarea rows="2" cols="20" class="form-control" id="input-two"><%= item.text2 %>
+                            </textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <% if (idx !== 0) { %>
+        <div class="col-1">
+            <button type="submit" class="btn btn-danger btn-sm del-btn" onclick="handleDelRow(this)">删除</button>
+        </div>
+        <% } %>
+    </div>
+    <% }) %>
+
+
+</div>
+
+<script>
+    $(function () {
+        var $saveBtn = $('#save-btn')
+        var $addBtn = $('#add-btn')
+
+
+        $addBtn.click(function () {
+            $(".container").append(`
+            <div class="row row-type margin-top-10">
+                <div class="col-5">
+                    <form>
+                        <div class="form-group row">
+                            <label for="input-one" class="col-sm-3 col-form-label" style="text-align: right;">一级分类</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control one-type" id="input-one" placeholder="请输入一级分类"
+                                    value="">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form>
+                        <div class="form-group row">
+                            <label for="input-two" class="col-sm-6 col-form-label"
+                                style="text-align: right;">二级分类（每一行，为一类）</label>
+                            <div class="col-sm-6">
+                                <textarea rows="2" cols="20" class="form-control" id="input-two"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-danger btn-sm del-btn" onclick="handleDelRow(this)">删除</button>
+                </div>
+            </div>
+            `)
+        })
+
+        $saveBtn.click(function () {
+            var $rows = $('.row-type')
+            var typesArray = []
+            let flag = false
+            for (var i = 0; i < $rows.length; i++) {
+                var name = $($rows[i].querySelector("#input-one")).val().trim()
+                if (!name) {
+                    flag = true
+                }
+                typesArray.push({
+                    name,
+                    children: $($rows[i].querySelector("#input-two")).val().split("\n").map(
+                        item => ({
+                            name: item.trim()
+                        }))
+                })
+            }
+            if (flag) {
+                alert("一级分类不能为空！")
+                return
+            }
+            ajax.post('/api/good/types', {
+                typesArray: typesArray
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                alert('修改成功')
+            })
+        })
+
+
+
+    })
+
+    function handleDelRow(e) {
+        console.log(e.parentNode.parentNode)
+        e.parentNode.parentNode.remove()
+    }
+</script>
+
+<%- include('layout/footer')%>

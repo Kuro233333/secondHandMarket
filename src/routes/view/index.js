@@ -6,7 +6,9 @@ const router = require('koa-router')()
 const {
     loginRedirect
 } = require('../../middlewares/loginChecks')
-
+const {
+    getGoodTypesList
+} = require("../../controller/good")
 /**
  * 获取登录信息
  * @param {Object} ctx ctx
@@ -37,6 +39,23 @@ router.get('/login', async (ctx, next) => {
 
 router.get('/register', async (ctx, next) => {
     await ctx.render('register', getLoginInfo(ctx))
+})
+
+router.get('/typesetting', loginRedirect, async (ctx, next) => {
+    // 获取分类
+    const typeResult = await getGoodTypesList()
+    const typesData = typeResult.data.map(item => {
+        item.text2 = item.children.map(child => {
+            return child.name
+        }).join("\n")
+        return item
+    })
+    console.log(typesData)
+    await ctx.render('typeSetting', {
+        userName: ctx.session.userInfo.userName,
+        isLogin: true,
+        typesData
+    })
 })
 
 router.get('/setting', loginRedirect, async (ctx, next) => {
@@ -76,7 +95,12 @@ router.get('/good/edit/:id', async (ctx, next) => {
     await ctx.render('mygoodForm', getLoginInfo(ctx))
 })
 router.get('/addgood', async (ctx, next) => {
-    await ctx.render('mygoodForm', getLoginInfo(ctx))
+    const typeResult = await getGoodTypesList()
+    await ctx.render('mygoodForm', {
+        userName: ctx.session.userInfo.userName,
+        isLogin: true,
+        typesData: typeResult.data
+    })
 })
 
 

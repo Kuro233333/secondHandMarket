@@ -5,7 +5,8 @@
 const router = require("koa-router")();
 const {
     getGoodTypesList,
-    getGoodList
+    getGoodList,
+    saveTypes
 } = require("../../controller/good");
 const userValidate = require("../../validator/user");
 const {
@@ -23,6 +24,15 @@ router.prefix("/api/good");
 // 注册路由
 router.get("/types", async (ctx, next) => {
     const result = await getGoodTypesList()
+    ctx.body = result
+});
+
+router.post("/types", async (ctx, next) => {
+    const {
+        typesArray
+    } = ctx.request.body;
+    console.log("typesArray11222222223", ctx.request.body)
+    const result = await saveTypes(typesArray)
     ctx.body = result
 });
 

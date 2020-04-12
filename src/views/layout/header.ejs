@@ -39,6 +39,9 @@
                     <a class="dropdown-item" href="/mygood">我发布的商品</a>
                     <a class="dropdown-item" href="/mybeg">我发布的求购商品</a>
                     <div class="dropdown-divider"></div>
+                    <% if (locals.userName === 'admin') { %>
+                    <a class="dropdown-item" href="/typesetting">分类设置</a>
+                    <% } %>
                     <a class="dropdown-item" href="/setting">设置</a>
                     <a id="btn-logout" class="dropdown-item">退出</a>
                 </div>

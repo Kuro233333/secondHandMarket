@@ -1,3 +1,8 @@
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+
 /* register */
 .reg-content {
     width: 300px;
@@ -365,9 +370,15 @@ footer p {
     font-size: 24px;
     cursor: pointer;
 }
-.iconbianji:hover{
-    color:#007bff;
+
+.iconbianji:hover {
+    color: #007bff;
 }
-.iconshanchu:hover{
-    color:#dc3545;
+
+.iconshanchu:hover {
+    color: #dc3545;
+}
+
+.row-type {
+    border-bottom: 1px solid #ddd;
 }
