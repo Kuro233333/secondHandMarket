@@ -3,44 +3,63 @@
 <div class="container mygood-content">
     <button id="add-btn" type="button" class="btn btn-success">发布商品</button>
     <ul class="product-list" style="margin-top: 20px;">
+        <% goodList.forEach(function(item) { %>
         <li class="item">
             <div class="pic-box" style="margin-bottom:0;">
-                <img width="100%" height="160"
-                    src="http://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1573714515.51751293.jpg" alt=""
-                    srcset="">
-                <div>
-                    <p>有意者联系：2312</p>
-                </div>
+                <img width="100%" height="160" src="<%= item.image %>" alt="" srcset="">
             </div>
             <div class="title">
-                huawei P40
+                <%= item.name %>
             </div>
             <div class="prize" style="margin: 10px 0;">
-                ￥ 123.0元
+                ￥ <%= item.price %>.0元
             </div>
-            <div class="type" style="color:#888;margin-bottom: 10px;">文具-修养-散学</div>
+            <div class="type" style="color:#888;margin-bottom: 10px;"><%= item.typeName %></div>
             <div class="tools">
-                <i class="iconfont iconbianji"></i>
-                <i class="iconfont iconshanchu"></i>
+                <i data-id="<%= item.id %>" onclick="editMyGood(this)" class="iconfont iconbianji"></i>
+                <i id="del-my-good" data-id="<%= item.id %>" onclick="deleteMyGood(this)"
+                    class="iconfont iconshanchu"></i>
             </div>
         </li>
+        <% }) %>
+
     </ul>
 </div>
 
 <script>
     $(function () {
-        var $edit = $('.iconbianji')
         var $add = $('#add-btn')
-        $edit.click(function(){
-            console.log("click")
-            window.location.href = '/good/edit/1'
-        })
-        $add.click(function(){
+        $add.click(function () {
             console.log("click")
             window.location.href = '/addgood'
         })
 
     })
+
+    function editMyGood(e) {
+        window.location.href = '/good/edit/' + e.dataset.id
+    }
+
+    function deleteMyGood(e) {
+
+        console.log("click", e.dataset.id)
+
+        if (confirm("你确定删除吗？")) {
+
+            ajax.post('/api/good/delete', {
+                goodId: e.dataset.id
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                window.location.href = '/mygood'
+                alert('删除成功')
+
+            })
+        }
+
+    }
 </script>
 
 <%- include('layout/footer')%>

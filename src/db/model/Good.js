@@ -26,15 +26,20 @@ const Good = seq.define("good", {
     allowNull: false,
     comment: "商品价格"
   },
+  typeName: {
+    type: STRING,
+    allowNull: false,
+    comment: "商品分类"
+  },
   sort1: {
     type: STRING,
     allowNull: false,
-    comment: "商品一级类别"
+    comment: "商品一级类别id"
   },
   sort2: {
     type: STRING,
     allowNull: false,
-    comment: "商品二级类别"
+    comment: "商品二级类别id"
   },
   count: {
     type: INTEGER,
@@ -74,7 +79,12 @@ const Good = seq.define("good", {
     allowNull: false,
     defaultValue: 1,
     comment: "商品热度"
-  }
+  },
+  userId: {
+    type: INTEGER,
+    allowNull: false,
+    comment: '用户 ID'
+  },
 });
 
 module.exports = Good;

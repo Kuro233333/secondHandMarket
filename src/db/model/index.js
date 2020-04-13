@@ -9,6 +9,10 @@ const Cart = require("./Cart");
 const Bought = require("./Bought");
 const GoodType = require("./GoodType");
 
+Good.belongsTo(User, {
+  foreignKey: 'userId'
+})
+
 module.exports = {
   User,
   Good,

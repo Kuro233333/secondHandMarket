@@ -48,15 +48,19 @@ async function deleteType() {
 }
 
 /**
- * 获取商品信息
+ * 获取商品列表信息
+ * @param {number} userId 用户id
  * @param {string} filter new or hot 最新最热排序
  * @param {number} page_size 每页多少条
  * @param {number} page 第几页
- * @param {string} type 商品所属类别
+ * @param {string} sort1 商品所属一级类别
+ * @param {string} sort2 商品所属二级类别
  */
 async function getGoods({
+    userId,
     filter,
-    type,
+    sort1,
+    sort2,
     pageIndex = 0,
     pageSize = 10
 }) {
@@ -75,9 +79,16 @@ async function getGoods({
         ]
     }
 
-    const whereOpt = type ? {
-        sort: type
-    } : {}
+    let whereOpt = {}
+    if (sort1) {
+        whereOpt['sort1'] = sort1
+    }
+    if (sort2) {
+        whereOpt['sort2'] = sort2
+    }
+    if (userId) {
+        whereOpt['userId'] = userId
+    }
     // 执行查询
     const result = await Good.findAndCountAll({
         limit: pageSize, // 每页多少条
@@ -87,7 +98,6 @@ async function getGoods({
     })
     // result.count 总数，跟分页无关
     // result.rows 查询结果，数组
-
     // 获取 dataValues
     let goodList = result.rows.map(row => row.dataValues)
 
@@ -98,25 +108,52 @@ async function getGoods({
 }
 
 /**
+ * 获取商品详细信息
+ * @param {string} goodId 商品ID
+ */
+async function getGood(goodId) {
+    // 查询条件
+    const whereOpt = {
+        id: goodId
+    }
+
+    // 查询
+    const result = await Good.findOne({
+        where: whereOpt
+    })
+    if (result == null) {
+        // 未找到
+        return result
+    }
+
+
+    return result.dataValues
+}
+
+/**
  * 创建商品
  * @param {Object} param0 创建商品的数据 { name,level,price,sort,count,remark,image }
  */
 async function createGood({
+    userId,
     name,
     level,
     price,
     sort1,
     sort2,
+    typeName,
     count,
     remark,
     image
 }) {
     const result = await Good.create({
+        userId,
         name,
         level,
         price,
         sort1,
         sort2,
+        typeName,
         count,
         remark,
         image
@@ -124,10 +161,87 @@ async function createGood({
     return result.dataValues
 }
 
+/**
+ * 删除商品
+ * @param {string} good_id 商品ID
+ */
+async function deleteGood(good_id) {
+    const result = await Good.destroy({
+        where: {
+            id: good_id
+        }
+    })
+    // result 删除的行数
+    return result > 0
+}
+
+/**
+ * 更新商品信息
+ * @param {Object} param0 要修改的内容 { .... }
+ * @param {Object} param1 查询条件 { good_id }
+ */
+async function updateGood({
+    newName,
+    newLevel,
+    newPrice,
+    newSort1,
+    newSort2,
+    newTypeName,
+    newCount,
+    newRemark,
+    newImage
+}, {
+    goodId
+}) {
+    // 拼接修改内容
+    const updateData = {}
+    if (newName) {
+        updateData.name = newName
+    }
+    if (newLevel) {
+        updateData.level = newLevel
+    }
+    if (newSort1) {
+        updateData.sort1 = newSort1
+    }
+    if (newSort2) {
+        updateData.sort2 = newSort2
+    }
+    if (newPrice) {
+        updateData.price = newPrice
+    }
+    if (newTypeName) {
+        updateData.typeName = newTypeName
+    }
+    if (newCount) {
+        updateData.count = newCount
+    }
+    if (newRemark) {
+        updateData.remark = newRemark
+    }
+    if (newImage) {
+        updateData.image = newImage
+    }
+
+    // 拼接查询条件
+    const whereData = {
+        id: goodId
+    }
+    // 执行修改
+    const result = await Good.update(updateData, {
+        where: whereData
+    })
+    console.log(result)
+    return result[0] > 0 // 修改的行数
+}
+
 module.exports = {
     getGoodTypes,
     getGoods,
     createGood,
+    deleteGood,
     createTypes,
-    deleteType
+    deleteType,
+    getGood,
+    updateGood
 }

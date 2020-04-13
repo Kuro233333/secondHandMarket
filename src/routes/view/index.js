@@ -7,7 +7,9 @@ const {
     loginRedirect
 } = require('../../middlewares/loginChecks')
 const {
-    getGoodTypesList
+    getGoodTypesList,
+    getMyGoodList,
+    getGoodDetail
 } = require("../../controller/good")
 /**
  * 获取登录信息
@@ -83,7 +85,15 @@ router.get('/cart', async (ctx, next) => {
 })
 
 router.get('/mygood', async (ctx, next) => {
-    await ctx.render('mygood', getLoginInfo(ctx))
+    // 获取我的商品列表
+    const goodResult = await getMyGoodList({
+        userId: ctx.session.userInfo.id
+    })
+    const info = getLoginInfo(ctx)
+
+    await ctx.render('mygood', Object.assign(info, {
+        goodList: goodResult.data.goodList
+    }))
 })
 
 router.get('/mybeg', async (ctx, next) => {
@@ -92,15 +102,22 @@ router.get('/mybeg', async (ctx, next) => {
 
 
 router.get('/good/edit/:id', async (ctx, next) => {
-    await ctx.render('mygoodForm', getLoginInfo(ctx))
+    const typeResult = await getGoodTypesList()
+    const goodId = ctx.request.url.split("/")[ctx.request.url.split("/").length - 1]
+    const goodRes = await getGoodDetail(goodId)
+    await ctx.render('mygoodForm', Object.assign(getLoginInfo(ctx), {
+        typesData: typeResult.data,
+        goodData: goodRes.data,
+        formType: 'edit'
+    }))
 })
 router.get('/addgood', async (ctx, next) => {
     const typeResult = await getGoodTypesList()
-    await ctx.render('mygoodForm', {
-        userName: ctx.session.userInfo.userName,
-        isLogin: true,
-        typesData: typeResult.data
-    })
+    await ctx.render('mygoodForm', Object.assign(getLoginInfo(ctx), {
+        typesData: typeResult.data,
+        goodData: "",
+        formType: 'add'
+    }))
 })
 
 

@@ -7,7 +7,9 @@ const {
     getGoodTypesList,
     getGoodList,
     saveTypes,
-    addGood
+    addGood,
+    deleteCurGood,
+    changeGoodInfo
 } = require("../../controller/good");
 const userValidate = require("../../validator/user");
 const {
@@ -32,7 +34,6 @@ router.post("/types", async (ctx, next) => {
     const {
         typesArray
     } = ctx.request.body;
-    console.log("typesArray11222222223", ctx.request.body)
     const result = await saveTypes(typesArray)
     ctx.body = result
 });
@@ -42,13 +43,17 @@ router.get("/list", async (ctx, next) => {
         pageIndex,
         pageSize,
         filter,
-        type
+        sort1,
+        sort2,
+        userId
     } = ctx.params
     const result = await getGoodList({
+        userId,
         pageIndex,
         pageSize,
         filter,
-        type
+        sort1,
+        sort2
     })
     ctx.body = result
 });
@@ -60,16 +65,58 @@ router.post("/add", async (ctx, next) => {
         price,
         sort1,
         sort2,
+        typeName,
         count,
         remark,
         image
     } = ctx.request.body;
+    const {
+        id: userId
+    } = ctx.session.userInfo
     const result = await addGood({
+        userId,
         name,
         level,
         price,
         sort1,
         sort2,
+        typeName,
+        count,
+        remark,
+        image
+    })
+    ctx.body = result
+});
+
+// 删除
+router.post('/delete', loginCheck, async (ctx, next) => {
+    const {
+        goodId
+    } = ctx.request.body;
+    ctx.body = await deleteCurGood(goodId)
+})
+
+
+router.post("/edit", async (ctx, next) => {
+    const {
+        goodId,
+        name,
+        level,
+        price,
+        sort1,
+        sort2,
+        typeName,
+        count,
+        remark,
+        image
+    } = ctx.request.body;
+    const result = await changeGoodInfo(goodId, {
+        name,
+        level,
+        price,
+        sort1,
+        sort2,
+        typeName,
         count,
         remark,
         image

@@ -5,9 +5,12 @@
 const {
     getGoodTypes,
     getGoods,
+    deleteGood,
     createGood,
     createTypes,
-    deleteType
+    deleteType,
+    getGood,
+    updateGood
 } = require('../services/good')
 const {
     SuccessModel,
@@ -98,17 +101,21 @@ async function saveTypes(typesArray) {
  * @param {string} type 商品所属类别
  */
 async function getGoodList({
+    userId,
     filter,
     pageSize,
     pageIndex,
-    type
+    sort1,
+    sort2
 }) {
 
     const goodList = await getGoods({
+        userId,
         filter,
         pageIndex,
         pageSize,
-        type
+        sort1,
+        sort2
     })
     if (goodList) {
         console.log(goodList)
@@ -121,33 +128,91 @@ async function getGoodList({
 
 }
 
+/**
+ * 获取我的商品列表
+ * @param {number} userId 用户ID
+ */
+async function getMyGoodList({
+    userId
+}) {
+
+    const goodList = await getGoods({
+        userId,
+        pageIndex: 0,
+        pageSize: 1000,
+    })
+    if (goodList) {
+        console.log(goodList)
+        // { errno: 0, data: {....} }
+        return new SuccessModel(goodList)
+    } else {
+        // { errno: 10003, message: '用户名未存在' }
+        return new ErrorModel('123')
+    }
+}
+
+/**
+ * 获取我的商品列表
+ * @param {number} userId 用户ID
+ */
+async function getMyGoodList({
+    userId
+}) {
+
+    const goodList = await getGoods({
+        userId,
+        pageIndex: 0,
+        pageSize: 1000,
+    })
+    if (goodList) {
+        console.log(goodList)
+        // { errno: 0, data: {....} }
+        return new SuccessModel(goodList)
+    } else {
+        // { errno: 10003, message: '用户名未存在' }
+        return new ErrorModel('123')
+    }
+}
+
+
+/**
+ * 获取商品详情
+ * @param {number} goodId 商品Id
+ */
+async function getGoodDetail(goodId) {
+
+    const good = await getGood(goodId)
+    if (good) {
+        console.log(good)
+        // { errno: 0, data: {....} }
+        return new SuccessModel(good)
+    } else {
+        // { errno: 10003, message: '用户名未存在' }
+        return new ErrorModel('123')
+    }
+}
+
 
 async function addGood({
+    userId,
     name,
     level,
     price,
     sort1,
     sort2,
+    typeName,
     count,
     remark,
     image
 }) {
-    console.log("!@3213",
-        name,
-        level,
-        price,
-        sort1,
-        sort2,
-        count,
-        remark,
-        image
-    )
     const goodList = await createGood({
+        userId,
         name,
         level,
         price,
         sort1,
         sort2,
+        typeName,
         count,
         remark,
         image
@@ -160,12 +225,69 @@ async function addGood({
         // { errno: 10003, message: '用户名未存在' }
         return new ErrorModel('123')
     }
+}
 
+/**
+ * 删除当前商品
+ * @param {string} good_id 商品ID
+ */
+async function deleteCurGood(good_id) {
+    const result = await deleteGood(good_id)
+    if (result) {
+        // 成功
+        return new SuccessModel()
+    }
+    // 失败
+    return new ErrorModel(deleteUserFailInfo)
+}
+
+/**
+ * 修改商品信息
+ * @param {string} goodId 商品ID
+ * @param {Object} {} 
+ */
+async function changeGoodInfo(goodId, {
+    name,
+    level,
+    price,
+    sort1,
+    sort2,
+    typeName,
+    count,
+    remark,
+    image
+}) {
+
+
+    const result = await updateGood({
+        newName: name,
+        newLevel: level,
+        newPrice: price,
+        newSort1: sort1,
+        newSort2: sort2,
+        newTypeName: typeName,
+        newCount: count,
+        newRemark: remark,
+        newImage: image
+    }, {
+        goodId
+    })
+    if (result) {
+        // 执行成功
+        // 返回
+        return new SuccessModel()
+    }
+    // 失败
+    return new ErrorModel(changeInfoFailInfo)
 }
 
 module.exports = {
     getGoodTypesList,
     getGoodList,
+    getMyGoodList,
     saveTypes,
-    addGood
+    addGood,
+    deleteCurGood,
+    getGoodDetail,
+    changeGoodInfo
 }
