@@ -9,7 +9,7 @@ const {
   INTEGER
 } = require("../types");
 
-const Bought = seq.define("bought", {
+const MyBought = seq.define("mybought", {
   userId: {
     type: INTEGER,
     allowNull: false,
@@ -33,4 +33,4 @@ const Bought = seq.define("bought", {
   }
 });
 
-module.exports = Bought;
+module.exports = MyBought;

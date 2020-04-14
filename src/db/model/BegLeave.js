@@ -1,5 +1,5 @@
 /**
- * @description 商品留言数据模型
+ * @description 求购商品留言数据模型
  */
 
 const seq = require("../seq");
@@ -10,8 +10,8 @@ const {
   BOOLEAN
 } = require("../types");
 
-// GoodLeave
-const GoodLeave = seq.define("goodLeave", {
+// BegLeave
+const BegLeave = seq.define("begLeave", {
   content: {
     type: STRING,
     allowNull: false,
@@ -22,10 +22,10 @@ const GoodLeave = seq.define("goodLeave", {
     allowNull: false,
     comment: '发送者 Id'
   },
-  goodId: {
+  begId: {
     type: INTEGER,
     allowNull: false,
-    comment: '商品 Id'
+    comment: '求购商品 Id'
   },
   isRead: {
     type: BOOLEAN,
@@ -35,4 +35,4 @@ const GoodLeave = seq.define("goodLeave", {
   }
 });
 
-module.exports = GoodLeave;
+module.exports = BegLeave;

@@ -69,7 +69,11 @@ router.get('/setting', loginRedirect, async (ctx, next) => {
 })
 
 router.get('/mall', async (ctx, next) => {
-    await ctx.render('mall', ctx)
+    const typeResult = await getGoodTypesList()
+
+    await ctx.render('mall', Object.assign(getLoginInfo(ctx), {
+        typesData: typeResult.data,
+    }))
 })
 
 router.get('/good/:id', async (ctx, next) => {

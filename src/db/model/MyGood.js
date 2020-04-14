@@ -1,5 +1,5 @@
 /**
- * @description 购物车数据模型
+ * @description 我发布的商品 数据模型
  */
 
 const seq = require("../seq");
@@ -9,7 +9,7 @@ const {
   INTEGER
 } = require("../types");
 
-const Cart = seq.define("cart", {
+const MyGood = seq.define("mygood", {
   userId: {
     type: INTEGER,
     allowNull: false,
@@ -27,4 +27,4 @@ const Cart = seq.define("cart", {
   }
 });
 
-module.exports = Cart;
+module.exports = MyGood;

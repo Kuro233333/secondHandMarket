@@ -1,5 +1,5 @@
 /**
- * @description 购物车数据模型
+ * @description 我求购的商品 数据模型
  */
 
 const seq = require("../seq");
@@ -9,7 +9,7 @@ const {
   INTEGER
 } = require("../types");
 
-const Cart = seq.define("cart", {
+const MyBeg = seq.define("mybeg", {
   userId: {
     type: INTEGER,
     allowNull: false,
@@ -20,6 +20,12 @@ const Cart = seq.define("cart", {
     allowNull: false,
     comment: '商品 id'
   },
+  status: {
+    type: DECIMAL,
+    allowNull: false,
+    defaultValue: 0,
+    comment: "商品当前的状态"
+  },
   quantity: {
     type: INTEGER,
     allowNull: false,
@@ -27,4 +33,4 @@ const Cart = seq.define("cart", {
   }
 });
 
-module.exports = Cart;
+module.exports = MyBeg;
