@@ -3,62 +3,184 @@
 <div class="mall">
     <div class="left">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">最热</button>
-            <button type="button" class="btn btn-light">最新</button>
+            <button type="button" onclick="handleFilterGoods(this,'hot')" class="btn btn-primary filter-btn">最热</button>
+            <button type="button" onclick="handleFilterGoods(this,'new')" class="btn btn-light filter-btn">最新</button>
         </div>
-        <ul class="type-list">
-            <li class="type">数码科技</li>
-            <li class="type">影音家电</li>
-            <li class="type">鞋服配饰</li>
-            <li class="type">运动代步</li>
-            <li class="type">书籍文具</li>
-            <li class="type">其他</li>
-        </ul>
-        <div class="type-box" style="">
-            <div class="type-block">
-                <div class="type-name"><span>1</span>手机</div>
-                <button type="button" class="btn btn-link">苹果</button>
-                <button type="button" class="btn btn-link">苹果</button>
-                <button type="button" class="btn btn-link">苹果</button>
-                <button type="button" class="btn btn-link">苹果</button>
+        <!-- Default dropright button -->
+        <div class="type-list">
+            <% typesData.forEach(function(item) { %>
+            <div class=" dropright">
+                <button type="button" class="btn dropdown-toggle type-list-item type" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <%= item.name %>
+                </button>
+                <div class="dropdown-menu">
+                    <% item.children.forEach(function(child) { %>
+                    <a class="dropdown-item" onclick="filterGood('<%= child.id %>')"><%= child.name %></a>
+                    <% }) %>
+                </div>
             </div>
+            <% }) %>
         </div>
-
     </div>
     <div class="right">
         <ul class="product-list">
+            <% goodsData.goodList.forEach(function(item) { %>
             <li class="item">
-                <div onmouseover="handleMouseOver(this)" onmouseout="handleMouseOut(this)" class="pic-box">
-                    <img width="100%" height="160"
-                        src="http://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1573714515.51751293.jpg" alt=""
-                        srcset="">
-                    <div>
-                        <p>有意者联系：2312</p>
-                    </div>
+                <div class="pic-box">
+                    <img width="100%" height="160" src="<%= item.image %>" alt="" srcset="">
                 </div>
                 <div class="title">
-                    huawei P40
+                    <%= item.name %>
                 </div>
                 <div class="prize">
-                    ￥ 123.0元
+                    ￥ <%= item.price %>.0元
                 </div>
                 <button type="button" class="btn btn-primary">加入购物车</button>
             </li>
+            <% }) %>
         </ul>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <li class="page-item page-prev-item disabled">
+                    <a class="page-link" onclick="prevPage()" tabindex="-1" aria-disabled="true">上一页</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                <li class="page-item page-num-item active"><a onclick="toPage(0)" class="page-link">1</a></li>
+                <% for(var i = 1 ;i<Math.ceil(goodsData.count/5);i++) { %>
+                <li class="page-item page-num-item"><a onclick="toPage('<%= i %>')" class="page-link"><%= i+1 %> </a>
+                </li>
+                <% } %>
+                <li class="page-item page-next-item">
+                    <a onclick="nextPage()" class="page-link">下一页</a>
                 </li>
             </ul>
         </nav>
     </div>
 </div>
+
+<script>
+    $(function () {
+
+
+
+    })
+    window.mallPageIndex = 0;
+
+
+    function filterGood(sort2) {
+        ajax.get('/api/good/list/0?sort2=' + sort2, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            $(".product-list").empty()
+            data.goodList.forEach(item => {
+                $(".product-list").append(`
+                    <li class="item">
+                        <div class="pic-box">
+                            <img width="100%" height="160" src="${item.image}" alt="" srcset="">
+                        </div>
+                        <div class="title">
+                            ${item.name}
+                        </div>
+                        <div class="prize">
+                            ￥ ${item.price}.0元
+                        </div>
+                        <button type="button" class="btn btn-primary">加入购物车</button>
+                    </li>
+                `)
+            })
+        })
+    }
+
+    function toPage(idx) {
+        console.log(idx, window.mallPageIndex)
+        window.mallMaxIdx = Math.ceil('<%- goodsData.count %>' / 5) - 1
+        window.mallPageIndex = idx
+        renderGoodList(idx)
+    }
+
+    function nextPage() {
+        var idx = ++window.mallPageIndex
+        renderGoodList(idx)
+    }
+
+    function prevPage() {
+        var idx = --window.mallPageIndex
+        renderGoodList(idx)
+    }
+
+    function renderGoodList(idx) {
+        window.mallMaxIdx = Math.ceil('<%- goodsData.count %>' / 5) - 1
+        $('.page-num-item').removeClass("active")
+        $($('.page-num-item')[idx]).addClass("active")
+        if (idx != 0) {
+            $('.page-prev-item').removeClass("disabled")
+        } else {
+            $('.page-prev-item').addClass("disabled")
+        }
+        if (idx == mallMaxIdx) {
+            $('.page-next-item').addClass("disabled")
+        } else {
+            $('.page-next-item').removeClass("disabled")
+        }
+        ajax.get('/api/good/list/' + idx, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            $(".product-list").empty()
+            data.goodList.forEach(item => {
+                $(".product-list").append(`
+                    <li class="item">
+                        <div class="pic-box">
+                            <img width="100%" height="160" src="${item.image}" alt="" srcset="">
+                        </div>
+                        <div class="title">
+                            ${item.name}
+                        </div>
+                        <div class="prize">
+                            ￥ ${item.price}.0元
+                        </div>
+                        <button type="button" class="btn btn-primary">加入购物车</button>
+                    </li>
+                `)
+            })
+        })
+    }
+
+    function handleFilterGoods(obj, type) {
+        console.log(obj, type)
+        $('.filter-btn').removeClass("btn-primary").addClass("btn-light")
+        $(obj).addClass("btn-primary").removeClass("btn-light")
+
+        ajax.get('/api/good/list/0?filter=' + type, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            $(".product-list").empty()
+            data.goodList.forEach(item => {
+                $(".product-list").append(`
+                    <li class="item">
+                        <div class="pic-box">
+                            <img width="100%" height="160" src="${item.image}" alt="" srcset="">
+                        </div>
+                        <div class="title">
+                            ${item.name}
+                        </div>
+                        <div class="prize">
+                            ￥ ${item.price}.0元
+                        </div>
+                        <button type="button" class="btn btn-primary">加入购物车</button>
+                    </li>
+                `)
+            })
+        })
+    }
+</script>
 
 <%- include('layout/footer')%>

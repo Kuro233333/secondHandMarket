@@ -9,7 +9,8 @@ const {
 const {
     getGoodTypesList,
     getMyGoodList,
-    getGoodDetail
+    getGoodDetail,
+    getGoodList
 } = require("../../controller/good")
 /**
  * 获取登录信息
@@ -32,7 +33,13 @@ function getLoginInfo(ctx) {
 }
 
 router.get('/', async (ctx, next) => {
-    await ctx.render('index', getLoginInfo(ctx))
+    const goodsResult = await getGoodList({
+        filter: 'hot',
+        pageIndex: 0
+    })
+    await ctx.render('index', Object.assign(getLoginInfo(ctx), {
+        goodsData: goodsResult.data
+    }))
 })
 
 router.get('/login', async (ctx, next) => {
@@ -70,11 +77,30 @@ router.get('/setting', loginRedirect, async (ctx, next) => {
 
 router.get('/mall', async (ctx, next) => {
     const typeResult = await getGoodTypesList()
-
+    const goodsResult = await getGoodList({
+        filter: 'hot',
+        pageIndex: 0
+    })
+    console.log(goodsResult)
     await ctx.render('mall', Object.assign(getLoginInfo(ctx), {
         typesData: typeResult.data,
+        goodsData: goodsResult.data
     }))
 })
+
+
+router.get("/search/:keyword", async (ctx, next) => {
+    let {
+        keyword
+    } = ctx.params
+    const goodsResult = await getGoodList({
+        keyword
+    })
+    await ctx.render('search', Object.assign(getLoginInfo(ctx), {
+        keyword,
+        goodsData: goodsResult.data
+    }))
+});
 
 router.get('/good/:id', async (ctx, next) => {
     await ctx.render('detail', getLoginInfo(ctx))

@@ -25,7 +25,7 @@
 
             <div class="search">
                 <input type="text" placeholder="商品查询" name="search" class="nav_search_input">
-                <i class="iconfont iconfangdajing"></i>
+                <i onclick="search()" class="iconfont iconfangdajing"></i>
             </div>
 
             <div class="user">
@@ -83,4 +83,8 @@
                 })
             })
         })
+
+        function search() {
+            window.location.href = '/search/' + $('.nav_search_input').val()
+        }
     </script>

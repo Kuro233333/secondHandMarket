@@ -38,21 +38,33 @@ router.post("/types", async (ctx, next) => {
     ctx.body = result
 });
 
-router.get("/list", async (ctx, next) => {
+router.get("/list/:pageIndex", async (ctx, next) => {
+    function urlToObj(str) {
+        var obj = {};
+        var arr1 = str.split("?");
+        if (!arr1[1]) {
+            return {}
+        }
+        var arr2 = arr1[1].split("&");
+        for (var i = 0; i < arr2.length; i++) {
+            var res = arr2[i].split("=");
+            obj[res[0]] = res[1];
+        }
+        return obj;
+    }
     let {
-        pageIndex,
-        pageSize,
-        filter,
-        sort1,
-        sort2,
-        userId
+        pageIndex
     } = ctx.params
-    const result = await getGoodList({
-        userId,
-        pageIndex,
-        pageSize,
+
+    let params = urlToObj(ctx.request.url)
+    console.log(params)
+    const {
         filter,
-        sort1,
+        sort2
+    } = params
+    const result = await getGoodList({
+        pageIndex,
+        filter,
         sort2
     })
     ctx.body = result

@@ -98,7 +98,8 @@ async function saveTypes(typesArray) {
  * @param {string} filter new or hot 最新最热排序
  * @param {number} pageSize 每页多少条
  * @param {number} pageIndex 第几页
- * @param {string} type 商品所属类别
+ * @param {string} sort1 商品所属一级类别
+ * @param {string} sort2 商品所属二级类别
  */
 async function getGoodList({
     userId,
@@ -106,7 +107,8 @@ async function getGoodList({
     pageSize,
     pageIndex,
     sort1,
-    sort2
+    sort2,
+    keyword
 }) {
 
     const goodList = await getGoods({
@@ -115,7 +117,8 @@ async function getGoodList({
         pageIndex,
         pageSize,
         sort1,
-        sort2
+        sort2,
+        keyword
     })
     if (goodList) {
         console.log(goodList)

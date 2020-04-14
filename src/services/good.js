@@ -4,11 +4,14 @@
 
 const {
     GoodType,
-    Good
+    Good,
+    User
 } = require('../db/model/index')
 const {
     formatUser
 } = require('./_format')
+var Sequelize = require('sequelize')
+var Op = Sequelize.Op
 
 /**
  * 获取商品分类
@@ -62,7 +65,8 @@ async function getGoods({
     sort1,
     sort2,
     pageIndex = 0,
-    pageSize = 10
+    pageSize = 5,
+    keyword
 }) {
     // 查询条件
     let order = [
@@ -75,7 +79,7 @@ async function getGoods({
     }
     if (filter === 'hot') {
         order = [
-            ['id', 'desc']
+            ['hot', 'desc']
         ]
     }
 
@@ -89,18 +93,32 @@ async function getGoods({
     if (userId) {
         whereOpt['userId'] = userId
     }
+    if (keyword) {
+        whereOpt['name'] = {
+            [Op.like]: '%' + keyword + '%'
+        }
+    }
+    console.log(pageSize, pageIndex)
     // 执行查询
     const result = await Good.findAndCountAll({
         limit: pageSize, // 每页多少条
         offset: pageSize * pageIndex, // 跳过多少条
         order,
-        where: whereOpt
+        where: whereOpt,
+        include: [{
+            model: User,
+            attributes: ['userName', 'phone']
+        }]
     })
     // result.count 总数，跟分页无关
     // result.rows 查询结果，数组
     // 获取 dataValues
     let goodList = result.rows.map(row => row.dataValues)
-
+    goodList = goodList.map(goodItem => {
+        goodItem.user = goodItem.user.dataValues
+        console.log(goodItem.user.phone)
+        return goodItem
+    })
     return {
         count: result.count,
         goodList
