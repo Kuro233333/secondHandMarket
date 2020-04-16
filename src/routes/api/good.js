@@ -11,6 +11,9 @@ const {
     deleteCurGood,
     changeGoodInfo
 } = require("../../controller/good");
+const {
+    addGoodLeave
+} = require("../../controller/goodLeave")
 const userValidate = require("../../validator/user");
 const {
     genValidator
@@ -132,6 +135,25 @@ router.post("/edit", async (ctx, next) => {
         count,
         remark,
         image
+    })
+    ctx.body = result
+});
+
+router.post("/leave", loginCheck, async (ctx, next) => {
+    console.log(ctx.session.userInfo)
+    const {
+        goodId,
+        content
+    } = ctx.request.body;
+    const {
+        id: userId,
+        userName
+    } = ctx.session.userInfo
+    const result = await addGoodLeave({
+        userId,
+        goodId,
+        content,
+        userName
     })
     ctx.body = result
 });

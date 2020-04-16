@@ -1,13 +1,74 @@
 <%- include('layout/header', { title: '二手交易商城 - 详情' })%>
 
 <div class="container margin-top-20">
-    detail
+    <div class="detail-content">
+        <div class="detail-info">
+            <div class="detail-img">
+                <img width="100%" src="<%= goodData.image %>" alt="">
+            </div>
+            <div class="detail-msg">
+                <div class="detail-msg-item">
+                    <b>商品名：</b><%= goodData.name %>
+                </div>
+                <div class="detail-msg-item">
+                    <b>成色：</b><%= goodData.level %>成
+                </div>
+                <div class="detail-msg-item">
+                    <b>数量：</b><%= goodData.count %>
+                </div>
+                <div class="detail-msg-item">
+                    <b>单价：</b><%= goodData.price %>.00 元
+                </div>
+                <div class="detail-msg-item">
+                    <b>详情：</b><%= goodData.remark %>
+                </div>
+                <div class="detail-msg-item">
+                    <b>分类：</b><%= goodData.typeName %>
+                </div>
+                <button style="margin-top: 8px;" type="button" class="btn btn-primary">加入购物车</button>
+            </div>
+        </div>
+        <% if(goodData.goodLeaves.length > 0) { %>
+        <h5 class="comment-title">商品留言板：</h5>
+        <% } %>
+        <ul class="comment-list">
+            <% goodData.goodLeaves.forEach(function(leave) { %>
+            <li class="comment-item">
+                <div class="comment-top">
+                    <div class="comment-user">用户： <%= leave.userName %> </div>
+                    <div class="comment-time">发表于 <%= leave.time %></div>
+                </div>
+                <p><%= leave.content %></p>
+            </li>
+            <% }) %>
+        </ul>
+        <h5 style="margin-top: 50px;">留言：</h5>
+        <textarea class="comment-textarea" placeholder="请输入您的留言" name="comment"></textarea>
+        <div style="display: flex;justify-content: flex-end;">
+            <button id="submit-leave" style="margin-top: 8px;" type="button" class="btn btn-primary">发表留言</button>
+        </div>
+    </div>
 
 </div>
 
 <script>
     $(function () {
+        var goodId = '<%= goodData.id %>'
+        $("#submit-leave").click(function () {
+            console.log($(".comment-textarea").val(), goodId)
+            ajax.post('/api/good/leave', {
+                content: $(".comment-textarea").val(),
+                goodId
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                location.reload()
+                alert('创建成功')
 
+            })
+        })
     })
 </script>
 

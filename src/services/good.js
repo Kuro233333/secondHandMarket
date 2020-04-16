@@ -5,7 +5,8 @@
 const {
     GoodType,
     Good,
-    User
+    User,
+    GoodLeave
 } = require('../db/model/index')
 const {
     formatUser
@@ -137,12 +138,36 @@ async function getGood(goodId) {
 
     // 查询
     const result = await Good.findOne({
-        where: whereOpt
+        where: whereOpt,
+        include: [{
+            model: GoodLeave,
+            attributes: ['userName', 'createdAt', 'content']
+        }]
     })
     if (result == null) {
         // 未找到
         return result
     }
+
+    function formatDateTime(date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        var second = date.getSeconds();
+        second = second < 10 ? ('0' + second) : second;
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+    };
+    result.dataValues.goodLeaves = result.dataValues.goodLeaves.map(item => {
+        item.dataValues.time = formatDateTime(new Date(item.dataValues.createdAt))
+        return item.dataValues
+    })
+    console.log(result.dataValues)
 
 
     return result.dataValues
@@ -207,7 +232,8 @@ async function updateGood({
     newTypeName,
     newCount,
     newRemark,
-    newImage
+    newImage,
+    newHot
 }, {
     goodId
 }) {
@@ -239,6 +265,9 @@ async function updateGood({
     }
     if (newImage) {
         updateData.image = newImage
+    }
+    if (newHot) {
+        updateData.hot = newHot
     }
 
     // 拼接查询条件

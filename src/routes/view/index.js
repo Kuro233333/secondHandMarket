@@ -10,7 +10,8 @@ const {
     getGoodTypesList,
     getMyGoodList,
     getGoodDetail,
-    getGoodList
+    getGoodList,
+    changeGoodInfo
 } = require("../../controller/good")
 /**
  * 获取登录信息
@@ -81,7 +82,7 @@ router.get('/mall', async (ctx, next) => {
         filter: 'hot',
         pageIndex: 0
     })
-    console.log(goodsResult)
+    console.log(typeResult)
     await ctx.render('mall', Object.assign(getLoginInfo(ctx), {
         typesData: typeResult.data,
         goodsData: goodsResult.data
@@ -103,7 +104,16 @@ router.get("/search/:keyword", async (ctx, next) => {
 });
 
 router.get('/good/:id', async (ctx, next) => {
-    await ctx.render('detail', getLoginInfo(ctx))
+    let {
+        id
+    } = ctx.params
+    const goodRes = await getGoodDetail(id)
+    await changeGoodInfo(id, {
+        hot: ++goodRes.data.hot
+    })
+    await ctx.render('detail', Object.assign(getLoginInfo(ctx), {
+        goodData: goodRes.data
+    }))
 })
 
 router.get('/begmall', async (ctx, next) => {

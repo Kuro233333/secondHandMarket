@@ -41,6 +41,10 @@ User.hasMany(Beg, {
   foreignKey: 'userId'
 })
 
+Good.hasMany(GoodLeave, {
+  foreignKey: 'goodId'
+})
+
 
 module.exports = {
   User,

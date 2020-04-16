@@ -17,6 +17,11 @@ const GoodLeave = seq.define("goodLeave", {
     allowNull: false,
     comment: "留言内容"
   },
+  userName: {
+    type: STRING,
+    allowNull: false,
+    comment: "发送者名字"
+  },
   userId: {
     type: INTEGER,
     allowNull: false,

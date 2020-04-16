@@ -30,7 +30,7 @@
                 <div class="pic-box">
                     <img width="100%" height="160" src="<%= item.image %>" alt="" srcset="">
                 </div>
-                <div class="title">
+                <div class="title" onclick="toDetail('<%= item.id %>')">
                     <%= item.name %>
                 </div>
                 <div class="prize">
@@ -81,7 +81,7 @@
                         <div class="pic-box">
                             <img width="100%" height="160" src="${item.image}" alt="" srcset="">
                         </div>
-                        <div class="title">
+                        <div class="title" onclick="toDetail(${item.id})">
                             ${item.name}
                         </div>
                         <div class="prize">
@@ -138,7 +138,7 @@
                         <div class="pic-box">
                             <img width="100%" height="160" src="${item.image}" alt="" srcset="">
                         </div>
-                        <div class="title">
+                        <div class="title" onclick="toDetail(${item.id})">
                             ${item.name}
                         </div>
                         <div class="prize">
@@ -169,7 +169,7 @@
                         <div class="pic-box">
                             <img width="100%" height="160" src="${item.image}" alt="" srcset="">
                         </div>
-                        <div class="title">
+                        <div class="title" onclick="toDetail(${item.id})">
                             ${item.name}
                         </div>
                         <div class="prize">
@@ -180,6 +180,10 @@
                 `)
             })
         })
+    }
+
+    function toDetail(good_id) {
+        window.location.href = '/good/' + good_id
     }
 </script>
 

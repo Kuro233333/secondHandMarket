@@ -258,7 +258,8 @@ async function changeGoodInfo(goodId, {
     typeName,
     count,
     remark,
-    image
+    image,
+    hot
 }) {
 
 
@@ -271,7 +272,8 @@ async function changeGoodInfo(goodId, {
         newTypeName: typeName,
         newCount: count,
         newRemark: remark,
-        newImage: image
+        newImage: image,
+        newHot: hot
     }, {
         goodId
     })
