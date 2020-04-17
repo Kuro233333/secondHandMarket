@@ -11,11 +11,16 @@
 
     <link href="/iconfont/iconfont.css" rel="stylesheet">
     <link href="/css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="/css/main.css" rel="stylesheet">
+
     <!-- jquery 要首先引入-->
     <script src="/js/jquery-3.4.1.min.js"></script>
     <!-- 封装的 ajax -->
     <script src="/js/my-ajax.js"></script>
+    <% if(locals.cart) { %>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap3.css" />
+    <link type="text/css" rel="stylesheet" href="/css/cart.css" />
+    <% } %>
+    <link href="/css/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -36,6 +41,8 @@
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/cart">购物车</a>
+                    <a class="dropdown-item" href="/msg">我的消息</a>
+                    <a class="dropdown-item" href="/myboughts">我的已购商品</a>
                     <a class="dropdown-item" href="/mygood">我发布的商品</a>
                     <a class="dropdown-item" href="/mybeg">我发布的求购商品</a>
                     <div class="dropdown-divider"></div>
@@ -54,15 +61,15 @@
     </header>
     <div class="nav-box">
         <nav class="nav nav-pills flex-column flex-sm-row">
-            <a class="flex-sm-fill text-sm-center nav-link" href="/">首页</a>
+            <a class="flex-sm-fill text-sm-center nav-link custom-nav" href="/">首页</a>
             <div>|</div>
-            <a class="flex-sm-fill text-sm-center nav-link" href="/mall">商城</a>
+            <a class="flex-sm-fill text-sm-center nav-link custom-nav" href="/mall">商城</a>
             <div>|</div>
-            <a class="flex-sm-fill text-sm-center nav-link" href="/begmall">求购商城</a>
+            <a class="flex-sm-fill text-sm-center nav-link custom-nav" href="/begmall">求购商城</a>
             <div>|</div>
-            <a class="flex-sm-fill text-sm-center nav-link" href="#">反馈与意见</a>
-            <div>|</div>
-            <a class="flex-sm-fill text-sm-center nav-link" href="#">联系我们</a>
+            <!-- <a class="flex-sm-fill text-sm-center nav-link custom-nav" href="#">反馈与意见</a>
+            <div>|</div> -->
+            <a class="flex-sm-fill text-sm-center nav-link custom-nav" href="#">联系我们</a>
         </nav>
     </div>
 

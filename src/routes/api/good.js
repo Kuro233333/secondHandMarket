@@ -125,6 +125,7 @@ router.post("/edit", async (ctx, next) => {
         remark,
         image
     } = ctx.request.body;
+    console.log('api', goodId, count)
     const result = await changeGoodInfo(goodId, {
         name,
         level,

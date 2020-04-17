@@ -13,6 +13,15 @@ const {
     getGoodList,
     changeGoodInfo
 } = require("../../controller/good")
+const {
+    getMessageList
+} = require("../../controller/message")
+const {
+    getCartList
+} = require("../../controller/cart")
+const {
+    getMyBoughtsList
+} = require("../../controller/myBought")
 /**
  * 获取登录信息
  * @param {Object} ctx ctx
@@ -121,9 +130,47 @@ router.get('/begmall', async (ctx, next) => {
 })
 
 router.get('/cart', async (ctx, next) => {
-    await ctx.render('cart', getLoginInfo(ctx))
+    const result = await getCartList({
+        userId: ctx.session.userInfo.id
+    })
+    console.log("cart", result.data)
+    await ctx.render('cart', Object.assign(getLoginInfo(ctx), {
+        cart: true,
+        cartList: result.data
+    }))
 })
 
+router.get('/msg', async (ctx, next) => {
+    const result = await getMessageList({
+        userId: ctx.session.userInfo.id
+    })
+    console.log('msg', result)
+    await ctx.render('msg', Object.assign(getLoginInfo(ctx), {
+        msgList: result.data
+    }))
+})
+
+router.get('/send/:id/:name', async (ctx, next) => {
+    let {
+        id,
+        name
+    } = ctx.params
+    await ctx.render('send', Object.assign(getLoginInfo(ctx), {
+        id,
+        name
+    }))
+})
+
+router.get('/myboughts', async (ctx, next) => {
+    // 获取我的商品列表
+    const goodResult = await getMyBoughtsList({
+        userId: ctx.session.userInfo.id
+    })
+    const info = getLoginInfo(ctx)
+    await ctx.render('myboughts', Object.assign(info, {
+        boughtsList: goodResult.data
+    }))
+})
 router.get('/mygood', async (ctx, next) => {
     // 获取我的商品列表
     const goodResult = await getMyGoodList({

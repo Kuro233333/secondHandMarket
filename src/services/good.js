@@ -84,7 +84,11 @@ async function getGoods({
         ]
     }
 
-    let whereOpt = {}
+    let whereOpt = {
+        count: {
+            [Op.gt]: 0
+        }
+    }
     if (sort1) {
         whereOpt['sort1'] = sort1
     }
@@ -237,6 +241,7 @@ async function updateGood({
 }, {
     goodId
 }) {
+    console.log('service', goodId, newCount)
     // 拼接修改内容
     const updateData = {}
     if (newName) {
@@ -257,7 +262,7 @@ async function updateGood({
     if (newTypeName) {
         updateData.typeName = newTypeName
     }
-    if (newCount) {
+    if (newCount === 0 || newCount) {
         updateData.count = newCount
     }
     if (newRemark) {

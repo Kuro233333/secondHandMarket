@@ -12,6 +12,7 @@ const GoodType = require("./GoodType");
 const MyBought = require("./MyBought");
 const MyBeg = require("./MyBeg");
 const MyGood = require("./MyGood");
+const Message = require("./Message");
 
 Good.belongsTo(User, {
   foreignKey: 'userId'
@@ -45,6 +46,21 @@ Good.hasMany(GoodLeave, {
   foreignKey: 'goodId'
 })
 
+Message.hasMany(Good, {
+  foreignKey: 'goodId'
+})
+// belongsTo 只要cart的goodId都是在Good里面找到，就是 一对多 belongsTo
+Cart.belongsTo(Good, {
+  foreignKey: 'goodId',
+  targetKey: 'id'
+})
+
+MyBought.belongsTo(Good, {
+  foreignKey: 'goodId',
+  targetKey: 'id'
+})
+
+
 
 module.exports = {
   User,
@@ -56,5 +72,6 @@ module.exports = {
   BegLeave,
   MyBought,
   MyBeg,
-  MyGood
+  MyGood,
+  Message
 };

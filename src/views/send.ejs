@@ -1,0 +1,37 @@
+<%- include('layout/header', { title: '消息列表' })%>
+<div class="container">
+    <div class="msg-box">
+        <h5 class="msg-title">消息推送</h5>
+        <h5>发送至用户：<%= name %></h5>
+        <textarea class="comment-textarea" placeholder="请输入您的消息" name="comment"></textarea>
+        <div style="display: flex;justify-content: flex-end;margin-bottom: 40px;">
+            <button id="submit-leave" style="margin-top: 8px;" type="button" class="btn btn-primary">发送</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var name = '<%= name %>'
+        var id = '<%= id %>'
+        $("#submit-leave").click(function () {
+            ajax.post('/api/message/create', {
+                content: $(".comment-textarea").val(),
+                receivedId: id,
+                receivedName: name
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                location.reload()
+                alert('创建成功')
+
+            })
+        })
+
+
+    })
+</script>
+
+<%- include('layout/footer')%>

@@ -8,11 +8,13 @@ const logger = require('koa-logger')
 const Koa_Session = require('koa-session');
 const koaStatic = require('koa-static')
 const path = require('path')
-const index = require('./routes/index')
 const viewRouter = require('./routes/view')
 const userAPIRouter = require('./routes/api/user')
 const goodAPIRouter = require('./routes/api/good')
 const utilsAPIRouter = require('./routes/api/utils')
+const messageAPIRouter = require('./routes/api/message')
+const cartAPIRouter = require('./routes/api/cart')
+const myBoughtAPIRouter = require('./routes/api/myBought')
 const errorViewRouter = require('./routes/view/error')
 // error handler
 onerror(app)
@@ -22,7 +24,7 @@ const session_signed_key = ["some secret hurr"]; // 这个是配合signed属性�
 const session_config = {
   key: 'koa:sess',
   /**  cookie的key。 (默认是 koa:sess) */
-  maxAge: 24 * 60 * 60 * 1000,
+  maxAge: 1 * 60 * 60 * 1000,
   /**  session 过期时间，以毫秒ms为单位计算 。*/
   autoCommit: true,
   /** 自动提交到响应头。(默认是 true) */
@@ -63,10 +65,12 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(goodAPIRouter.routes(), goodAPIRouter.allowedMethods())
 app.use(viewRouter.routes(), viewRouter.allowedMethods())
+app.use(messageAPIRouter.routes(), messageAPIRouter.allowedMethods())
+app.use(cartAPIRouter.routes(), cartAPIRouter.allowedMethods())
+app.use(myBoughtAPIRouter.routes(), myBoughtAPIRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 404 路由注册到最后面
 // error-handling

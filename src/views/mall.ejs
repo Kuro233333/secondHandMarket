@@ -36,7 +36,8 @@
                 <div class="prize">
                     ￥ <%= item.price %>.0元
                 </div>
-                <button type="button" class="btn btn-primary">加入购物车</button>
+                <button onclick="addToCart('<%= item.id %>','<%= item.count %>')" type="button"
+                    class="btn btn-primary">加入购物车</button>
             </li>
             <% }) %>
         </ul>
@@ -64,6 +65,52 @@
 
 
     })
+
+    function addToCart(goodId, max) {
+        console.log(goodId)
+        ajax.get('/api/cart/exit/' + goodId, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            if (data) {
+                if (data.quantity >= max) {
+                    alert('没有库存了')
+                    return
+                }
+                ajax.post('/api/cart/add', {
+                    cartId: data.id,
+                    quantity: ++data.quantity
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    location.reload()
+                    alert('加入成功')
+
+                })
+            } else {
+                ajax.post('/api/cart/create', {
+                    goodId
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    location.reload()
+                    alert('加入成功')
+
+                })
+            }
+
+        })
+
+    }
+
+
+
     window.mallPageIndex = 0;
 
 

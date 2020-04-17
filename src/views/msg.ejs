@@ -1,0 +1,30 @@
+<%- include('layout/header', { title: '消息列表' })%>
+<div class="container">
+    <div class="msg-box">
+        <h5 class="msg-title">消息列表</h5>
+        <ul class="comment-list">
+            <% msgList.forEach(function(item) { %>
+            <li class="comment-item">
+                <div class="comment-top">
+                    <div class="comment-user">用户： <%= item.userName %> </div>
+                    <div class="comment-time">发送于 <%= item.time %></div>
+                </div>
+                <div class="msg-content">
+                    <p><%= item.content %></p>
+                    <a href="/send/<%= item.userId %>/<%= item.userName %>">回复</a>
+                </div>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+
+
+    })
+</script>
+
+<%- include('layout/footer')%>

@@ -261,7 +261,7 @@ async function changeGoodInfo(goodId, {
     image,
     hot
 }) {
-
+    console.log('control', goodId, count)
 
     const result = await updateGood({
         newName: name,
@@ -283,7 +283,7 @@ async function changeGoodInfo(goodId, {
         return new SuccessModel()
     }
     // 失败
-    return new ErrorModel(changeInfoFailInfo)
+    return new ErrorModel('接口报错')
 }
 
 module.exports = {
