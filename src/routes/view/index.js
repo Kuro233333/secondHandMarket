@@ -14,6 +14,11 @@ const {
     changeGoodInfo
 } = require("../../controller/good")
 const {
+    getMyBegList,
+    getBegList,
+    getBegDetail
+} = require("../../controller/beg")
+const {
     getMessageList
 } = require("../../controller/message")
 const {
@@ -91,10 +96,21 @@ router.get('/mall', async (ctx, next) => {
         filter: 'hot',
         pageIndex: 0
     })
-    console.log(typeResult)
     await ctx.render('mall', Object.assign(getLoginInfo(ctx), {
         typesData: typeResult.data,
         goodsData: goodsResult.data
+    }))
+})
+
+router.get('/begmall', async (ctx, next) => {
+    const typeResult = await getGoodTypesList()
+    const begResult = await getBegList({
+        filter: 'hot',
+        pageIndex: 0
+    })
+    await ctx.render('begmall', Object.assign(getLoginInfo(ctx), {
+        typesData: typeResult.data,
+        begsData: begResult.data
     }))
 })
 
@@ -123,10 +139,6 @@ router.get('/good/:id', async (ctx, next) => {
     await ctx.render('detail', Object.assign(getLoginInfo(ctx), {
         goodData: goodRes.data
     }))
-})
-
-router.get('/begmall', async (ctx, next) => {
-    await ctx.render('begmall', ctx)
 })
 
 router.get('/cart', async (ctx, next) => {
@@ -184,7 +196,13 @@ router.get('/mygood', async (ctx, next) => {
 })
 
 router.get('/mybeg', async (ctx, next) => {
-    await ctx.render('mybeg', getLoginInfo(ctx))
+    const begResult = await getMyBegList({
+        userId: ctx.session.userInfo.id
+    })
+    const info = getLoginInfo(ctx)
+    await ctx.render('mybeg', Object.assign(info, {
+        begList: begResult.data.begList
+    }))
 })
 
 
@@ -203,6 +221,25 @@ router.get('/addgood', async (ctx, next) => {
     await ctx.render('mygoodForm', Object.assign(getLoginInfo(ctx), {
         typesData: typeResult.data,
         goodData: "",
+        formType: 'add'
+    }))
+})
+
+router.get('/beg/edit/:id', async (ctx, next) => {
+    const typeResult = await getGoodTypesList()
+    const begId = ctx.request.url.split("/")[ctx.request.url.split("/").length - 1]
+    const goodRes = await getBegDetail(begId)
+    await ctx.render('mybegForm', Object.assign(getLoginInfo(ctx), {
+        typesData: typeResult.data,
+        begData: goodRes.data,
+        formType: 'edit'
+    }))
+})
+router.get('/addbeg', async (ctx, next) => {
+    const typeResult = await getGoodTypesList()
+    await ctx.render('mybegForm', Object.assign(getLoginInfo(ctx), {
+        typesData: typeResult.data,
+        begData: "",
         formType: 'add'
     }))
 })

@@ -84,11 +84,7 @@ async function getGoods({
         ]
     }
 
-    let whereOpt = {
-        count: {
-            [Op.gt]: 0
-        }
-    }
+    let whereOpt = {}
     if (sort1) {
         whereOpt['sort1'] = sort1
     }
@@ -97,6 +93,10 @@ async function getGoods({
     }
     if (userId) {
         whereOpt['userId'] = userId
+    } else {
+        whereOpt['count'] = {
+            [Op.gt]: 0
+        }
     }
     if (keyword) {
         whereOpt['name'] = {

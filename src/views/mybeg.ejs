@@ -1,14 +1,65 @@
-<%- include('layout/header', { title: '二手交易商城 - 求购' })%>
+<%- include('layout/header', { title: '我发布的求购商品' })%>
 
-<div class="container margin-top-20">
-    <button type="button" class="btn btn-success">发布求购商品</button>
+<div class="container mygood-content">
+    <button id="add-btn" type="button" class="btn btn-success">发布求购商品</button>
+    <ul class="product-list" style="margin-top: 20px;">
+        <% begList.forEach(function(item) { %>
+        <li class="item">
+            <div class="title">
+                <%= item.name %>
+            </div>
+            <div class="prize" style="margin: 10px 0;">
+                ￥ <%= item.price %>.0元
+            </div>
+            <div class="type" style="color:#888;margin-bottom: 10px;"><%= item.typeName %></div>
+            <div>
+                <textarea readonly="readonly" rows='4' cols='20'><%= item.remark %></textarea>
+            </div>
+            <div class="tools">
+                <i data-id="<%= item.id %>" onclick="editMyBeg(this)" class="iconfont iconbianji"></i>
+                <i id="del-my-good" data-id="<%= item.id %>" onclick="deleteMyBeg(this)"
+                    class="iconfont iconshanchu"></i>
+            </div>
+        </li>
+        <% }) %>
 
+    </ul>
 </div>
 
 <script>
     $(function () {
+        var $add = $('#add-btn')
+        $add.click(function () {
+            console.log("click")
+            window.location.href = '/addbeg'
+        })
 
     })
+
+    function editMyBeg(e) {
+        window.location.href = '/beg/edit/' + e.dataset.id
+    }
+
+    function deleteMyBeg(e) {
+
+        console.log("click", e.dataset.id)
+
+        if (confirm("你确定删除吗？")) {
+
+            ajax.post('/api/beg/delete', {
+                begId: e.dataset.id
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                window.location.href = '/mybeg'
+                alert('删除成功')
+
+            })
+        }
+
+    }
 </script>
 
 <%- include('layout/footer')%>

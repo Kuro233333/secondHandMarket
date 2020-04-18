@@ -18,6 +18,10 @@ Good.belongsTo(User, {
   foreignKey: 'userId'
 })
 
+Beg.belongsTo(User, {
+  foreignKey: 'userId'
+})
+
 GoodLeave.belongsTo(Good, {
   foreignKey: 'goodId'
 })

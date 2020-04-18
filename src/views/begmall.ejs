@@ -2,66 +2,222 @@
 <h4 style="text-align: center;margin: 20px 0;">求购商品</h4>
 <div class="mall">
     <div class="left">
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">最热</button>
-            <button type="button" class="btn btn-light">最新</button>
-        </div>
-        <ul class="type-list">
-            <li class="type">数码科技</li>
-            <li class="type">影音家电</li>
-            <li class="type">鞋服配饰</li>
-            <li class="type">运动代步</li>
-            <li class="type">书籍文具</li>
-            <li class="type">其他</li>
-        </ul>
-        <div class="type-box" style="display: none;">
-            <div class="type-block">
-                <div class="type-name"><span>1</span>手机</div>
-                <button type="button" class="btn btn-link">苹果</button>
-                <button type="button" class="btn btn-link">苹果</button>
-                <button type="button" class="btn btn-link">苹果</button>
-                <button type="button" class="btn btn-link">苹果</button>
+        <div class="type-list">
+            <% typesData.forEach(function(item) { %>
+            <div class=" dropright">
+                <button type="button" class="btn dropdown-toggle type-list-item type" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <%= item.name %>
+                </button>
+                <div class="dropdown-menu">
+                    <% item.children.forEach(function(child) { %>
+                    <a class="dropdown-item" onclick="filterBeg('<%= child.id %>')"><%= child.name %></a>
+                    <% }) %>
+                </div>
             </div>
+            <% }) %>
         </div>
-
     </div>
     <div class="right">
         <ul class="begs-list">
+            <% begsData.begList.forEach(function(item) { %>
             <li class="item">
                 <div class="form-item">
-                    <span class="label">商品名：</span><span class="label">R4-4</span>
+                    <span class="label">商品名：</span><span class="label"><%= item.name %></span>
                 </div>
                 <div class="form-item">
-                    <span class="label">数量：</span><span class="label">1</span>
+                    <span class="label">数量：</span><span class="label"><%= item.count %></span>
                 </div>
                 <div class="form-item">
-                    <span class="label">单价：</span><span class="label">￥100.00元</span>
+                    <span class="label">单价：</span><span class="label">￥<%= item.price %>.00元</span>
                 </div>
                 <div class="form-item">
-                    <span class="label">分类：</span><span class="label">其他-其他-其他</span>
+                    <span class="label">分类：</span><span class="label"><%= item.typeName %></span>
                 </div>
                 <div class="form-item">
-                    <div class="label">分类：</div>
-                    <textarea rows='4' cols='30'></textarea>
+                    <div class="label">详情：</div>
+                    <textarea readonly="readonly" rows='4' cols='30'><%= item.remark %></textarea>
                 </div>
-                <button style="margin-left: 68px;" type="button" class="btn btn-primary">点击联系</button>
+                <button onclick="sendMsg('<%= item.userId %>','<%= item.user.userName%>')" style="margin-left: 68px;"
+                    type="button" class="btn btn-primary">点击联系</button>
             </li>
-
+            <% }) %>
         </ul>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <li class="page-item page-prev-item disabled">
+                    <a class="page-link" onclick="prevPage()" tabindex="-1" aria-disabled="true">上一页</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                <li class="page-item page-num-item active"><a onclick="toPage(0)" class="page-link">1</a></li>
+                <% for(var i = 1 ;i<Math.ceil(begsData.count/5);i++) { %>
+                <li class="page-item page-num-item"><a onclick="toPage('<%= i %>')" class="page-link"><%= i+1 %> </a>
+                </li>
+                <% } %>
+                <li class="page-item page-next-item">
+                    <a onclick="nextPage()" class="page-link">下一页</a>
                 </li>
             </ul>
         </nav>
     </div>
 </div>
+
+<script>
+    $(function () {
+
+
+
+    })
+
+    function addToCart(goodId, max) {
+        console.log(goodId)
+        ajax.get('/api/cart/exit/' + goodId, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            if (data) {
+                if (data.quantity >= max) {
+                    alert('没有库存了')
+                    return
+                }
+                ajax.post('/api/cart/add', {
+                    cartId: data.id,
+                    quantity: ++data.quantity
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    location.reload()
+                    alert('加入成功')
+
+                })
+            } else {
+                ajax.post('/api/cart/create', {
+                    goodId
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    location.reload()
+                    alert('加入成功')
+
+                })
+            }
+
+        })
+
+    }
+
+
+
+    window.mallPageIndex = 0;
+
+
+    function filterBeg(sort2) {
+        ajax.get('/api/beg/list/0?sort2=' + sort2, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            $(".begs-list").empty()
+            data.begList.forEach(item => {
+                $(".begs-list").append(`
+                <li class="item">
+                        <div class="form-item">
+                            <span class="label">商品名：</span><span class="label">${item.name}</span>
+                        </div>
+                        <div class="form-item">
+                            <span class="label">数量：</span><span class="label">${item.count}</span>
+                        </div>
+                        <div class="form-item">
+                            <span class="label">单价：</span><span class="label">￥${item.price}.00元</span>
+                        </div>
+                        <div class="form-item">
+                            <span class="label">分类：</span><span class="label">${item.typeName}</span>
+                        </div>
+                        <div class="form-item">
+                            <div class="label">详情：</div>
+                            <textarea readonly="readonly" rows='4' cols='30'>${item.remark}</textarea>
+                        </div>
+                        <button onclick="sendMsg('${item.userId}','${item.user.userName}')" style="margin-left: 68px;"
+                            type="button" class="btn btn-primary">点击联系</button>
+                    </li>
+                `)
+            })
+        })
+    }
+
+    function toPage(idx) {
+        window.mallMaxIdx = Math.ceil('<%- begsData.count %>' / 5) - 1
+        window.mallPageIndex = idx
+        renderGoodList(idx)
+    }
+
+    function nextPage() {
+        var idx = ++window.mallPageIndex
+        renderGoodList(idx)
+    }
+
+    function prevPage() {
+        var idx = --window.mallPageIndex
+        renderGoodList(idx)
+    }
+
+    function renderGoodList(idx) {
+        window.mallMaxIdx = Math.ceil('<%- begsData.count %>' / 5) - 1
+        $('.page-num-item').removeClass("active")
+        $($('.page-num-item')[idx]).addClass("active")
+        if (idx != 0) {
+            $('.page-prev-item').removeClass("disabled")
+        } else {
+            $('.page-prev-item').addClass("disabled")
+        }
+        if (idx == mallMaxIdx) {
+            $('.page-next-item').addClass("disabled")
+        } else {
+            $('.page-next-item').removeClass("disabled")
+        }
+        ajax.get('/api/beg/list/' + idx, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            $(".begs-list").empty()
+            data.begList.forEach(item => {
+                $(".begs-list").append(`
+                <li class="item">
+                        <div class="form-item">
+                            <span class="label">商品名：</span><span class="label">${item.name}</span>
+                        </div>
+                        <div class="form-item">
+                            <span class="label">数量：</span><span class="label">${item.count}</span>
+                        </div>
+                        <div class="form-item">
+                            <span class="label">单价：</span><span class="label">￥${item.price}.00元</span>
+                        </div>
+                        <div class="form-item">
+                            <span class="label">分类：</span><span class="label">${item.typeName}</span>
+                        </div>
+                        <div class="form-item">
+                            <div class="label">详情：</div>
+                            <textarea readonly="readonly" rows='4' cols='30'>${item.remark}</textarea>
+                        </div>
+                        <button onclick="sendMsg('${item.userId}','${item.user.userName}')" style="margin-left: 68px;"
+                            type="button" class="btn btn-primary">点击联系</button>
+                    </li>
+                `)
+            })
+        })
+    }
+
+    function sendMsg(userId, userName) {
+        window.location.href = '/send/' + userId + '/' + userName
+    }
+</script>
 
 <%- include('layout/footer')%>

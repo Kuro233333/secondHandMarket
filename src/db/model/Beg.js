@@ -46,11 +46,6 @@ const Beg = seq.define("beg", {
     allowNull: true,
     comment: "商品详细信息"
   },
-  image: {
-    type: STRING,
-    allowNull: true,
-    comment: "商品的图片地址"
-  },
   userId: {
     type: INTEGER,
     allowNull: false,

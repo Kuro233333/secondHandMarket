@@ -154,29 +154,6 @@ async function getMyGoodList({
     }
 }
 
-/**
- * 获取我的商品列表
- * @param {number} userId 用户ID
- */
-async function getMyGoodList({
-    userId
-}) {
-
-    const goodList = await getGoods({
-        userId,
-        pageIndex: 0,
-        pageSize: 1000,
-    })
-    if (goodList) {
-        console.log(goodList)
-        // { errno: 0, data: {....} }
-        return new SuccessModel(goodList)
-    } else {
-        // { errno: 10003, message: '用户名未存在' }
-        return new ErrorModel('123')
-    }
-}
-
 
 /**
  * 获取商品详情

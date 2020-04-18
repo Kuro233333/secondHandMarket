@@ -13,18 +13,6 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="input-real" class="col-sm-2 col-form-label">成色</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" id="select-level">
-                            <option value="1">九成</option>
-                            <option value="2">八成</option>
-                            <option value="3">七成</option>
-                            <option value="3">六成</option>
-                            <option value="3">五成</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="input-real" class="col-sm-2 col-form-label">单价</label>
                     <div class="col-sm-10" style="display: flex;align-items: center;">
                         <input type="text" class="form-control" id="input-price" placeholder="请输入单价" value="">
@@ -59,14 +47,6 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="file-picture" class="col-sm-2 col-form-label">图片</label>
-                    <div class="col-sm-10">
-                        <img src="" style="width: 250px;display:none;" id="img-avatar" />
-                        <input style="margin-top: 5px;" type="file" class="form-control-file" accept="image/*"
-                            id="file-picture">
-                    </div>
-                </div>
                 <% if(formType === 'add') {%>
                 <center><button style="margin-bottom: 50px;" type="submit" class="btn btn-primary"
                         id="add-btn">发布</button></center>
@@ -84,23 +64,21 @@
 <script>
     $(function () {
 
-        var goodData = JSON.parse('<%- JSON.stringify(goodData) %>')
-        console.log(goodData)
-        if (goodData) {
+        var begData = JSON.parse('<%- JSON.stringify(begData) %>')
+        console.log(begData)
+        if (begData) {
             const {
                 name,
-                level,
                 price,
                 sort1,
                 sort2,
                 count,
-                remark,
-                image
-            } = goodData
+                remark
+            } = begData
             $("#input-name").val(name)
-            $("#select-level").val(level)
             $("#input-price").val(price)
-            $("#type-select-1").val(sort1)
+            $("#type-select-1").val(parseInt(sort1))
+            $("#type-select-2 option").remove();
             var typeData = JSON.parse('<%- JSON.stringify(typesData) %>')
             console.log(typeData)
             typeData.forEach(item => {
@@ -113,11 +91,9 @@
                     })
                 }
             });
-            $("#type-select-2").val(sort2)
+            $("#type-select-2").val(parseInt(sort2))
             $("#input-count").val(count)
             $("#input-remark").val(remark)
-            $('#img-avatar').attr('src', image)
-            $('#img-avatar').css("display", "block")
         }
 
 
@@ -141,30 +117,12 @@
             });
         });
 
-        // 上传图片
-        var $imgPicture = $('#img-avatar')
-        var $filePicture = $('#file-picture')
-        $filePicture.change(function (e) {
-            var file = $filePicture[0].files[0]
-            ajax.upload('/api/utils/upload', file, function (err, data) {
-                if (err) {
-                    alert(err)
-                    return
-                }
-                console.log(data)
-                // 成功
-                $imgPicture.attr('src', data.url)
-                $imgPicture.css("display", "block")
-            })
-        })
-
 
         // 
         var $addBtn = $('#add-btn')
         $addBtn.click(function (e) {
             e.preventDefault()
             var name = $("#input-name").val()
-            var level = $("#select-level").val()
             var price = $("#input-price").val()
             var sort1 = $("#type-select-1").val()
             var sort2 = $("#type-select-2").val()
@@ -172,7 +130,7 @@
                 "#type-select-2").find("option:selected").text()
             var count = parseInt($("#input-count").val())
             var remark = $("#input-remark").val()
-            var image = $imgPicture.attr('src')
+
             if (!name) {
                 alert("商品名称不能为空")
                 return
@@ -185,20 +143,14 @@
                 alert("商品数量不能为空")
                 return
             }
-            if (!image) {
-                alert("商品图片不能为空")
-                return
-            }
-            ajax.post('/api/good/add', {
+            ajax.post('/api/beg/add', {
                 name,
-                level,
                 price,
                 sort1,
                 sort2,
                 typeName,
                 count,
-                remark,
-                image
+                remark
             }, function (err, data) {
                 if (err) {
                     alert(err)
@@ -215,7 +167,6 @@
         $saveBtn.click(function (e) {
             e.preventDefault()
             var name = $("#input-name").val()
-            var level = $("#select-level").val()
             var price = $("#input-price").val()
             var sort1 = $("#type-select-1").val()
             var sort2 = $("#type-select-2").val()
@@ -223,7 +174,7 @@
                 "#type-select-2").find("option:selected").text()
             var count = parseInt($("#input-count").val())
             var remark = $("#input-remark").val()
-            var image = $imgPicture.attr('src')
+
             if (!name) {
                 alert("商品名称不能为空")
                 return
@@ -236,21 +187,15 @@
                 alert("商品数量不能为空")
                 return
             }
-            if (!image) {
-                alert("商品图片不能为空")
-                return
-            }
-            ajax.post('/api/good/edit', {
-                goodId: goodData.id,
+            ajax.post('/api/beg/edit', {
+                begId: begData.id,
                 name,
-                level,
                 price,
                 sort1,
                 sort2,
                 typeName,
                 count,
-                remark,
-                image
+                remark
             }, function (err, data) {
                 if (err) {
                     alert(err)

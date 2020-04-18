@@ -40,17 +40,18 @@
                     <i class="iconfont iconyonghu"></i><%= locals.userName%>
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/cart">购物车</a>
-                    <a class="dropdown-item" href="/msg">我的消息</a>
-                    <a class="dropdown-item" href="/myboughts">我的已购商品</a>
-                    <a class="dropdown-item" href="/mygood">我发布的商品</a>
-                    <a class="dropdown-item" href="/mybeg">我发布的求购商品</a>
+                    <a class="dropdown-item my-drop-down" href="/cart">购物车</a>
+                    <a class="dropdown-item my-drop-down" href="/msg">我的消息</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item my-drop-down" href="/myboughts">我的已购商品</a>
+                    <a class="dropdown-item my-drop-down" href="/mygood">我发布的商品</a>
+                    <a class="dropdown-item my-drop-down" href="/mybeg">我发布的求购商品</a>
                     <div class="dropdown-divider"></div>
                     <% if (locals.userName === 'admin') { %>
-                    <a class="dropdown-item" href="/typesetting">分类设置</a>
+                    <a class="dropdown-item my-drop-down" href="/typesetting">分类设置</a>
                     <% } %>
-                    <a class="dropdown-item" href="/setting">设置</a>
-                    <a id="btn-logout" class="dropdown-item">退出</a>
+                    <a class="dropdown-item my-drop-down" href="/setting">设置</a>
+                    <a id="btn-logout" class="dropdown-item my-drop-down">退出</a>
                 </div>
                 <% } else { %>
                 <button onclick="window.location.href='/login'" type="button" class="btn btn-link">登录</button>
@@ -92,6 +93,10 @@
         })
 
         function search() {
+            if (!$('.nav_search_input').val()) {
+                alert("请输入搜索关键字~")
+                return
+            }
             window.location.href = '/search/' + $('.nav_search_input').val()
         }
     </script>
