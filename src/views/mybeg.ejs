@@ -15,11 +15,14 @@
             <div>
                 <textarea readonly="readonly" rows='4' cols='20'><%= item.remark %></textarea>
             </div>
+            <div class="title" style="cursor: initial;">状态：<%= item.isPick?'已接单':'未结单' %></div>
+            <% if(!item.isPick) { %>
             <div class="tools">
                 <i data-id="<%= item.id %>" onclick="editMyBeg(this)" class="iconfont iconbianji"></i>
                 <i id="del-my-good" data-id="<%= item.id %>" onclick="deleteMyBeg(this)"
                     class="iconfont iconshanchu"></i>
             </div>
+            <% } %>
         </li>
         <% }) %>
 

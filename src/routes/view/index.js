@@ -25,8 +25,14 @@ const {
     getCartList
 } = require("../../controller/cart")
 const {
+    getBegCartList
+} = require("../../controller/begCart")
+const {
     getMyBoughtsList
 } = require("../../controller/myBought")
+const {
+    getMyBeggedsList
+} = require("../../controller/myBegged")
 /**
  * 获取登录信息
  * @param {Object} ctx ctx
@@ -120,7 +126,8 @@ router.get("/search/:keyword", async (ctx, next) => {
         keyword
     } = ctx.params
     const goodsResult = await getGoodList({
-        keyword
+        keyword,
+        pageSize: 100
     })
     await ctx.render('search', Object.assign(getLoginInfo(ctx), {
         keyword,
@@ -147,6 +154,16 @@ router.get('/cart', async (ctx, next) => {
     })
     console.log("cart", result.data)
     await ctx.render('cart', Object.assign(getLoginInfo(ctx), {
+        cart: true,
+        cartList: result.data
+    }))
+})
+
+router.get('/begcart', async (ctx, next) => {
+    const result = await getBegCartList({
+        userId: ctx.session.userInfo.id
+    })
+    await ctx.render('begCart', Object.assign(getLoginInfo(ctx), {
         cart: true,
         cartList: result.data
     }))
@@ -180,6 +197,16 @@ router.get('/myboughts', async (ctx, next) => {
     })
     const info = getLoginInfo(ctx)
     await ctx.render('myboughts', Object.assign(info, {
+        boughtsList: goodResult.data
+    }))
+})
+router.get('/mybegged', async (ctx, next) => {
+    // 获取我的商品列表
+    const goodResult = await getMyBeggedsList({
+        userId: ctx.session.userInfo.id
+    })
+    const info = getLoginInfo(ctx)
+    await ctx.render('mybegged', Object.assign(info, {
         boughtsList: goodResult.data
     }))
 })

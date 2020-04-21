@@ -1,0 +1,62 @@
+<%- include('layout/header', { title: '二手交易商城 - 商品' })%>
+
+<div class="container mygood-content">
+    <h5>我的接单栏</h5>
+    <ul class="product-list" style="margin-top: 20px;">
+        <% boughtsList.forEach(function(item) { %>
+        <li class="item" style="width: 230px;height: 190px;flex-direction: row;justify-content: flex-start;">
+            <div style="display: flex;flex-direction: column;justify-content: center;">
+                <div class="title" style="cursor: initial;">
+                    求购商品名：<%= item.beg.name %>
+                </div>
+                <div style="margin: 10px 0;text-align: center;">
+                    价格：￥ <%= item.beg.price %>.0元
+                </div>
+                <div class="type" style="color:#888;margin-bottom: 10px;text-align: center;">
+                    分类：<%= item.beg.typeName %>
+                </div>
+                <div class="title" style="cursor: initial;">状态：<%= item.beg.isPay?'已支付':'未支付' %></div>
+            </div>
+        </li>
+        <% }) %>
+
+    </ul>
+</div>
+
+<script>
+    $(function () {
+        var $add = $('#add-btn')
+        $add.click(function () {
+            console.log("click")
+            window.location.href = '/addgood'
+        })
+
+    })
+
+    function editMyGood(e) {
+        window.location.href = '/good/edit/' + e.dataset.id
+    }
+
+    function deleteMyGood(e) {
+
+        console.log("click", e.dataset.id)
+
+        if (confirm("你确定删除吗？")) {
+
+            ajax.post('/api/good/delete', {
+                goodId: e.dataset.id
+            }, function (err, data) {
+                if (err) {
+                    alert(err)
+                    return
+                }
+                window.location.href = '/mygood'
+                alert('删除成功')
+
+            })
+        }
+
+    }
+</script>
+
+<%- include('layout/footer')%>

@@ -26,7 +26,8 @@ async function getBegList({
     pageSize,
     pageIndex,
     sort1,
-    sort2
+    sort2,
+    keyword
 }) {
     console.log(sort2, pageIndex)
     const begList = await getBegs({
@@ -34,7 +35,8 @@ async function getBegList({
         pageIndex,
         pageSize,
         sort1,
-        sort2
+        sort2,
+        keyword
     })
     if (begList) {
         console.log(begList)
@@ -126,8 +128,11 @@ async function changeBegInfo(begId, {
     sort2,
     typeName,
     count,
-    remark
+    remark,
+    isPick,
+    isPay
 }) {
+    console.log("isPay", isPay)
     const result = await updateBeg({
         newName: name,
         newPrice: price,
@@ -135,7 +140,9 @@ async function changeBegInfo(begId, {
         newSort2: sort2,
         newTypeName: typeName,
         newCount: count,
-        newRemark: remark
+        newRemark: remark,
+        newIsPick: isPick,
+        newIsPay: isPay
     }, {
         begId
     })

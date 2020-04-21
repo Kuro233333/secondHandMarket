@@ -3,5 +3,5 @@
  */
 require("./init/user");
 require("./init/goodType");
-require("./init/good");
-require("./init/beg");
+// require("./init/good");
+// require("./init/beg");

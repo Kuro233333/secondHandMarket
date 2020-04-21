@@ -5,11 +5,6 @@ const initDataArr = [{
     password: doCrypto("admin"),
     gender: 3,
     realName: "admin"
-}, {
-    userName: "kuro",
-    password: doCrypto("123456"),
-    gender: 3,
-    realName: "kuro"
 }]
 const initFunc = initDataArr.map(item => {
     return User.create(item)

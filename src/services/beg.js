@@ -26,14 +26,17 @@ async function getBegs({
     sort1,
     sort2,
     pageIndex = 0,
-    pageSize = 5
+    pageSize = 5,
+    keyword
 }) {
     // 查询条件
     let order = [
         ['createdAt', 'desc']
     ]
 
-    let whereOpt = {}
+    let whereOpt = {
+
+    }
     if (sort1) {
         whereOpt['sort1'] = sort1
     }
@@ -42,6 +45,13 @@ async function getBegs({
     }
     if (userId) {
         whereOpt['userId'] = userId
+    } else {
+        whereOpt['isPick'] = false
+    }
+    if (keyword) {
+        whereOpt['name'] = {
+            [Op.like]: '%' + keyword + '%'
+        }
     }
     console.log(whereOpt)
     // 执行查询
@@ -124,7 +134,9 @@ async function updateBeg({
     newSort2,
     newTypeName,
     newCount,
-    newRemark
+    newRemark,
+    newIsPay,
+    newIsPick
 }, {
     begId
 }) {
@@ -150,6 +162,12 @@ async function updateBeg({
     }
     if (newRemark) {
         updateData.remark = newRemark
+    }
+    if (newIsPay) {
+        updateData.isPay = newIsPay
+    }
+    if (newIsPick) {
+        updateData.isPick = newIsPick
     }
 
     // 拼接查询条件

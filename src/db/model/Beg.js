@@ -6,6 +6,7 @@ const seq = require("../seq");
 const {
   STRING,
   DECIMAL,
+  BOOLEAN,
   INTEGER
 } = require("../types");
 
@@ -50,6 +51,18 @@ const Beg = seq.define("beg", {
     type: INTEGER,
     allowNull: false,
     comment: '用户 ID'
+  },
+  isPay: {
+    type: BOOLEAN,
+    allowNull: false,
+    defaultValue: false, // 默认未支付
+    comment: '是否支付'
+  },
+  isPick: {
+    type: BOOLEAN,
+    allowNull: false,
+    defaultValue: false, // 是否接了
+    comment: '是否已接单'
   }
 });
 

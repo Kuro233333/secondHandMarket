@@ -16,6 +16,8 @@ const messageAPIRouter = require('./routes/api/message')
 const cartAPIRouter = require('./routes/api/cart')
 const myBoughtAPIRouter = require('./routes/api/myBought')
 const begAPIRouter = require('./routes/api/beg')
+const begCartAPIRouter = require('./routes/api/begCart')
+const myBegged = require('./routes/api/myBegged')
 const errorViewRouter = require('./routes/view/error')
 // error handler
 onerror(app)
@@ -73,6 +75,8 @@ app.use(messageAPIRouter.routes(), messageAPIRouter.allowedMethods())
 app.use(cartAPIRouter.routes(), cartAPIRouter.allowedMethods())
 app.use(myBoughtAPIRouter.routes(), myBoughtAPIRouter.allowedMethods())
 app.use(begAPIRouter.routes(), begAPIRouter.allowedMethods())
+app.use(begCartAPIRouter.routes(), begCartAPIRouter.allowedMethods())
+app.use(myBegged.routes(), myBegged.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 404 路由注册到最后面
 // error-handling

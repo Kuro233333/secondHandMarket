@@ -170,8 +170,12 @@ nav div {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-right: 30px;
+    margin-right: 100px;
     margin-bottom: 40px;
+}
+
+.product-list-index .item {
+    margin-right: 30px;
 }
 
 .product-list .item .pic-box {

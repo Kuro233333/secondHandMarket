@@ -25,7 +25,7 @@
 
     <div class="hot-sales">
         <h4>精选商品</h4>
-        <ul class="product-list">
+        <ul class="product-list product-list-index">
             <% goodsData.goodList.forEach(function(item) { %>
             <li class="item">
                 <div onmouseover="handleMouseOver(this)" onmouseout="handleMouseOut(this)" class="pic-box">
@@ -34,13 +34,14 @@
                         <p>有意者联系：<%= item.user.phone %></p>
                     </div>
                 </div>
-                <div class="title">
+                <div class="title" onclick="toDetail('<%= item.id %>')">
                     <%= item.name %>
                 </div>
                 <div class="prize">
                     ￥ <%= item.price %>.0元
                 </div>
-                <button type="button" class="btn btn-primary">加入购物车</button>
+                <button onclick="addToCart('<%= item.id %>','<%= item.count %>')" type="button"
+                    class="btn btn-primary">加入购物车</button>
             </li>
             <% }) %>
         </ul>
@@ -50,11 +51,11 @@
         <ul>
             <li class="item">
                 <h2 class="title">关于我们</h2>
-                <p>该网站成立与2017年，是仲恺农业工程学院最大的校内二手交易网站。拥有2000万注册用户和10万注册企业和合作伙伴。日常在线活动用户约90万。交易金额最大可达1亿/日。</p>
+                <p>本网站成立于2020年，专注于为在校大学生提供最便捷的校园数码产品二手交易平台。</p>
             </li>
             <li class="item">
                 <h2 class="title">团队信息</h2>
-                <p>该网站成立与2017年，是仲恺农业工程学院最大的校内二手交易网站。拥有2000万注册用户和10万注册企业和合作伙伴。日常在线活动用户约90万。交易金额最大可达1亿/日。</p>
+                <p>本网站由QFC、SJY、HWH和XDY协力完成，有疑问可联系网站管理员。</p>
             </li>
             <li class="item">
                 <h2 class="title">版权声明</h2>
@@ -72,6 +73,54 @@
     function handleMouseOut(_this) {
         _this.querySelector("div").style.display = 'none'
     }
+
+    function toDetail(good_id) {
+        window.location.href = '/good/' + good_id
+    }
+
+    function addToCart(goodId, max) {
+        console.log(goodId)
+        ajax.get('/api/cart/exit/' + goodId, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            if (data) {
+                if (data.quantity >= max) {
+                    alert('没有库存了')
+                    return
+                }
+                ajax.post('/api/cart/add', {
+                    cartId: data.id,
+                    quantity: ++data.quantity
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    location.reload()
+                    alert('加入成功')
+
+                })
+            } else {
+                ajax.post('/api/cart/create', {
+                    goodId
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    location.reload()
+                    alert('加入成功')
+
+                })
+            }
+
+        })
+
+    }
+
 
     $(function () {
 

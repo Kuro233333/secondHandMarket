@@ -40,11 +40,13 @@ router.get("/list/:pageIndex", async (ctx, next) => {
     let params = urlToObj(ctx.request.url)
     console.log(params)
     const {
-        sort2
+        sort2,
+        keyword
     } = params
     const result = await getBegList({
         pageIndex,
-        sort2
+        sort2,
+        keyword
     })
     ctx.body = result
 });
@@ -93,7 +95,9 @@ router.post("/edit", async (ctx, next) => {
         sort2,
         typeName,
         count,
-        remark
+        remark,
+        isPick,
+        isPay
     } = ctx.request.body;
 
     const result = await changeBegInfo(begId, {
@@ -103,7 +107,9 @@ router.post("/edit", async (ctx, next) => {
         sort2,
         typeName,
         count,
-        remark
+        remark,
+        isPick,
+        isPay
     })
     ctx.body = result
 });

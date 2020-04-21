@@ -6,13 +6,14 @@ const User = require("./User");
 const Good = require("./Good");
 const GoodLeave = require("./GoodLeave");
 const Beg = require("./Beg");
-const BegLeave = require("./BegLeave");
 const Cart = require("./Cart");
 const GoodType = require("./GoodType");
 const MyBought = require("./MyBought");
 const MyBeg = require("./MyBeg");
 const MyGood = require("./MyGood");
 const Message = require("./Message");
+const BegCart = require("./BegCart");
+const MyBegged = require("./MyBegged");
 
 Good.belongsTo(User, {
   foreignKey: 'userId'
@@ -27,14 +28,6 @@ GoodLeave.belongsTo(Good, {
 })
 
 GoodLeave.belongsTo(User, {
-  foreignKey: 'userId'
-})
-
-BegLeave.belongsTo(Beg, {
-  foreignKey: 'begId'
-})
-
-BegLeave.belongsTo(User, {
   foreignKey: 'userId'
 })
 
@@ -64,6 +57,15 @@ MyBought.belongsTo(Good, {
   targetKey: 'id'
 })
 
+BegCart.belongsTo(Beg, {
+  foreignKey: 'begId',
+  targetKey: 'id'
+})
+
+MyBegged.belongsTo(Beg, {
+  foreignKey: 'begId',
+  targetKey: 'id'
+})
 
 
 module.exports = {
@@ -73,9 +75,11 @@ module.exports = {
   Cart,
   GoodType,
   Beg,
-  BegLeave,
   MyBought,
   MyBeg,
   MyGood,
-  Message
+  Message,
+  MyBought,
+  BegCart,
+  MyBegged
 };
