@@ -54,11 +54,15 @@
 <script>
     $(function () {
         var goodId = '<%= goodData.id %>'
+        var receivedId = '<%= goodData.user.id %>'
+        var receivedName = '<%= goodData.user.userName %>'
         $("#submit-leave").click(function () {
             console.log($(".comment-textarea").val(), goodId)
             ajax.post('/api/good/leave', {
                 content: $(".comment-textarea").val(),
-                goodId
+                goodId,
+                receivedId,
+                receivedName
             }, function (err, data) {
                 if (err) {
                     alert(err)

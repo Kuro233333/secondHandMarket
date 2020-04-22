@@ -144,9 +144,14 @@ async function getGood(goodId) {
     const result = await Good.findOne({
         where: whereOpt,
         include: [{
-            model: GoodLeave,
-            attributes: ['userName', 'createdAt', 'content']
-        }]
+                model: GoodLeave,
+                attributes: ['userName', 'createdAt', 'content']
+            },
+            {
+                model: User,
+                attributes: ['id', 'userName']
+            }
+        ]
     })
     if (result == null) {
         // 未找到
@@ -171,6 +176,7 @@ async function getGood(goodId) {
         item.dataValues.time = formatDateTime(new Date(item.dataValues.createdAt))
         return item.dataValues
     })
+    result.dataValues.user = result.dataValues.user.dataValues
     console.log(result.dataValues)
 
 

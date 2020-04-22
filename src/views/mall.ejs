@@ -27,8 +27,8 @@
         <ul class="product-list">
             <% goodsData.goodList.forEach(function(item) { %>
             <li class="item">
-                <div class="pic-box">
-                    <img width="100%" height="160" src="<%= item.image %>" alt="" srcset="">
+                <div class="pic-box" onclick="toDetail('<%= item.id %>')">
+                    <img width="100%" src="<%= item.image %>" alt="" srcset="">
                 </div>
                 <div class="title" onclick="toDetail('<%= item.id %>')">
                     <%= item.name %>
@@ -125,8 +125,8 @@
             data.goodList.forEach(item => {
                 $(".product-list").append(`
                     <li class="item">
-                        <div class="pic-box">
-                            <img width="100%" height="160" src="${item.image}" alt="" srcset="">
+                        <div class="pic-box" onclick="toDetail(${item.id})">
+                            <img width="100%"  src="${item.image}" alt="" srcset="">
                         </div>
                         <div class="title" onclick="toDetail(${item.id})">
                             ${item.name}
@@ -182,8 +182,8 @@
             data.goodList.forEach(item => {
                 $(".product-list").append(`
                     <li class="item">
-                        <div class="pic-box">
-                            <img width="100%" height="160" src="${item.image}" alt="" srcset="">
+                        <div class="pic-box"  onclick="toDetail(${item.id})">
+                            <img width="100%"  src="${item.image}" alt="" srcset="">
                         </div>
                         <div class="title" onclick="toDetail(${item.id})">
                             ${item.name}
@@ -213,8 +213,8 @@
             data.goodList.forEach(item => {
                 $(".product-list").append(`
                     <li class="item">
-                        <div class="pic-box">
-                            <img width="100%" height="160" src="${item.image}" alt="" srcset="">
+                        <div class="pic-box" onclick="toDetail(${item.id})">
+                            <img width="100%"  src="${item.image}" alt="" srcset="">
                         </div>
                         <div class="title" onclick="toDetail(${item.id})">
                             ${item.name}

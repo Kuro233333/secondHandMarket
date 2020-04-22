@@ -121,7 +121,8 @@ async function changeInfo(ctx, {
     gender,
     studentNo,
     dormitory,
-    clazz
+    clazz,
+    addr
 }) {
     const {
         userName
@@ -137,7 +138,8 @@ async function changeInfo(ctx, {
         newGender: gender,
         newStudentNo: studentNo,
         newDormitory: dormitory,
-        newClazz: clazz
+        newClazz: clazz,
+        newAddr: addr
     }, {
         userName
     })
@@ -150,7 +152,8 @@ async function changeInfo(ctx, {
             gender,
             studentNo,
             dormitory,
-            clazz
+            clazz,
+            addr
         })
         // 返回
         return new SuccessModel()

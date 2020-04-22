@@ -62,5 +62,18 @@ router.post("/add", async (ctx, next) => {
     ctx.body = result
 });
 
+// router.post("/jiesuan", async (ctx, next) => {
+//     const {
+//         count,
+//         boughts,
+//         goodId,
+//         cartId
+//     } = ctx.request.body;
+//     const result = await changeCartInfo(cartId, {
+//         quantity
+//     })
+//     ctx.body = result
+// });
+
 
 module.exports = router;

@@ -79,7 +79,8 @@ router.patch(
       gender,
       studentNo,
       dormitory,
-      clazz
+      clazz,
+      addr
     } = ctx.request.body;
     ctx.body = await changeInfo(ctx, {
       realName,
@@ -88,7 +89,8 @@ router.patch(
       gender,
       studentNo,
       dormitory,
-      clazz
+      clazz,
+      addr
     });
   }
 );

@@ -24,6 +24,9 @@ const {
 const {
     loginCheck
 } = require("../../middlewares/loginChecks");
+const {
+    addMessage
+} = require("../../controller/message");
 
 router.prefix("/api/good");
 
@@ -144,12 +147,21 @@ router.post("/leave", loginCheck, async (ctx, next) => {
     console.log(ctx.session.userInfo)
     const {
         goodId,
-        content
+        content,
+        receivedId,
+        receivedName
     } = ctx.request.body;
     const {
         id: userId,
         userName
     } = ctx.session.userInfo
+    await addMessage({
+        content,
+        receivedId,
+        receivedName,
+        userName,
+        userId
+    })
     const result = await addGoodLeave({
         userId,
         goodId,
