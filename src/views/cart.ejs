@@ -19,7 +19,8 @@
             <!--goods display-->
             <% cartList.forEach(function(item){ %>
             <div class="goods-item" data-goodid="<%= item.good.id %>" data-cartid="<%= item.id %>"
-                data-count='<%= item.good.count %>'>
+                data-count='<%= item.good.count %>' data-userid="<%= item.user.id %>"
+                data-username="<%= item.user.userName %>" data-goodname="<%= item.good.name %>">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-1 car-goods-info">
@@ -114,11 +115,17 @@
         var goodIds = []
         var counts = []
         var quantitys = []
+        var receiveds = []
         var items = $(".goods-item .goods-list-item:checked").parents('.goods-item')
         for (let i = 0; i < items.length; i++) {
             cartIds.push(items[i].dataset.cartid)
             goodIds.push(items[i].dataset.goodid)
             counts.push(items[i].dataset.count)
+            receiveds.push({
+                id: items[i].dataset.userid,
+                name: items[i].dataset.username,
+                goodName: items[i].dataset.goodname
+            })
             var goodId = items[i].dataset.goodid
             var quantity = $($(items[i]).find(".goods-count")).val()
             quantitys.push(quantity)
@@ -128,41 +135,22 @@
             })
         }
         if (confirm("确定结算吗？")) {
-            ajax.post('/api/bought/create', {
-                boughts
+            ajax.post('/api/cart/jiesuan', {
+                counts,
+                boughts,
+                goodIds,
+                cartIds,
+                quantitys,
+                receiveds,
             }, function (err, data) {
                 if (err) {
                     alert(err)
                     return
                 }
-                console.log(goodIds)
-                goodIds.forEach((item, idx) => {
-                    console.log(item)
-                    ajax.post('/api/good/edit', {
-                        count: counts[idx] - quantitys[idx],
-                        goodId: parseInt(item)
-                    }, function (err, data) {
-                        if (err) {
-                            alert(err)
-                            return
-                        }
-                    })
-                })
-                cartIds.forEach(item => {
-                    ajax.post('/api/cart/delete', {
-                        cartId: item
-                    }, function (err, data) {
-                        if (err) {
-                            alert(err)
-                            return
-                        }
-                    })
-                })
                 setTimeout(function () {
                     location.reload()
                     alert('结算成功')
-                }, 1500)
-
+                }, 1000)
 
 
             })

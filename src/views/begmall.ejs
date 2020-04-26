@@ -49,8 +49,9 @@
                 <div style="display: flex;">
                     <button onclick="sendMsg('<%= item.userId %>','<%= item.user.userName%>')"
                         style="margin-left: 28px;" type="button" class="btn btn-primary">点击联系</button>
-                    <button onclick="addToBegCart('<%= item.id %>','<%= item.userId %>')" type="button"
-                        style="margin-left: 18px;" class="btn btn-primary">接单</button>
+                    <button
+                        onclick="addToBegCart('<%= item.id %>','<%= item.name %>','<%= item.userId %>','<%= item.user.userName %>')"
+                        type="button" style="margin-left: 18px;" class="btn btn-primary">接单</button>
                 </div>
             </li>
             <% }) %>
@@ -80,11 +81,13 @@
 
     })
 
-    function addToBegCart(begId, userId) {
-        console.log(begId, userId)
+    function addToBegCart(begId, begName, userId, userName) {
+        console.log(begId, userId, userName)
         ajax.post('/api/begcart/create', {
             begId: parseInt(begId),
-            userId: parseInt(userId)
+            userId: parseInt(userId),
+            userName,
+            begName
         }, function (err, data) {
             if (err) {
                 alert(err)

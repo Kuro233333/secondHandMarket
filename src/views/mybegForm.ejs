@@ -85,6 +85,7 @@
                 console.log(item.id, $("#type-select-1").val())
                 if (item.id == $("#type-select-1").val()) {
                     console.log(item)
+                    $("#type-select-2").empty()
                     item.children.forEach(child => {
                         $("#type-select-2").append("<option value=" + child.id + ">" +
                             child.name + "</option>");
@@ -109,6 +110,7 @@
                 console.log(item.id, $("#type-select-1").val())
                 if (item.id == $("#type-select-1").val()) {
                     console.log(item)
+                    $("#type-select-2").empty()
                     item.children.forEach(child => {
                         $("#type-select-2").append("<option value=" + child.id + ">" +
                             child.name + "</option>");
@@ -156,8 +158,10 @@
                     alert(err)
                     return
                 }
-                window.history.go(-1);
-                alert('创建成功')
+                setTimeout(function () {
+                    window.location.href = "/mybeg"
+                    alert('创建成功')
+                }, 1000)
 
             })
         })
@@ -201,8 +205,10 @@
                     alert(err)
                     return
                 }
-                window.history.go(-1);
-                alert('修改成功')
+                setTimeout(function () {
+                    window.location.href = "/mybeg"
+                    alert('修改成功')
+                }, 1000)
 
             })
         })

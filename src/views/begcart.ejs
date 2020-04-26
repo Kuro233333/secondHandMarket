@@ -17,7 +17,8 @@
             <!--goods display-->
             <% cartList.forEach(function(item){ %>
             <div class="goods-item" data-begid="<%= item.beg.id %>" data-begcartid="<%= item.id %>"
-                data-count='<%= item.beg.count %>'>
+                data-count='<%= item.beg.count %>' data-userid="<%= item.user.id %>"
+                data-username="<%= item.user.userName %>" data-begname="<%= item.beg.name %>">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-1 car-goods-info">
@@ -90,30 +91,44 @@
 
 <script>
     function submitMoney() {
+        var beggeds = []
         var begCartIds = []
         var begIds = []
+        var receiveds = []
         var items = $(".goods-item .goods-list-item:checked").parents('.goods-item')
         for (let i = 0; i < items.length; i++) {
             begCartIds.push(items[i].dataset.begcartid)
             begIds.push(items[i].dataset.begid)
+            receiveds.push({
+                id: items[i].dataset.userid,
+                name: items[i].dataset.username,
+                goodName: items[i].dataset.goodname
+            })
+            var begId = items[i].dataset.begid
+            beggeds.push({
+                begId
+            })
         }
         if (confirm("确定结算吗？")) {
             begCartIds.forEach(function (item, idx) {
                 ajax.post('/api/begcart/jiesuan', {
-                    begId: begIds[idx],
-                    begCartId: item
+                    begCartIds,
+                    begIds,
+                    receiveds,
+                    beggeds
                 }, function (err, data) {
                     if (err) {
                         alert(err)
                         return
                     }
+                    setTimeout(function () {
+                        location.reload()
+                        alert('结算成功')
+                    }, 1000)
                 })
             })
 
-            setTimeout(function () {
-                location.reload()
-                alert('结算成功')
-            }, 1500)
+
         }
     }
 

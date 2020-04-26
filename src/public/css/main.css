@@ -158,6 +158,7 @@ nav div {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    min-height: 400px;
 }
 
 .product-list .item {
@@ -269,6 +270,7 @@ footer p {
 
 .mall .right {
     width: 80%;
+    min-height: 500px;
 }
 
 .mall .type-list {
@@ -337,6 +339,7 @@ footer p {
 .begs-list {
     display: flex;
     flex-wrap: wrap;
+    min-height: 400px;
 }
 
 .begs-list .item {
@@ -424,6 +427,7 @@ footer p {
     width: 250px;
     height: 250px;
     border: 1px solid #ddd;
+    overflow: hidden;
 }
 
 .detail-msg {
