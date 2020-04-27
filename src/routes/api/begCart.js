@@ -22,6 +22,10 @@ router.post("/create", async (ctx, next) => {
     receivedName: userName,
     userName: myName,
   });
+  await changeBegInfo(begId, {
+    jdName: myName,
+    jdId: myId,
+  });
   const result = await addBegCart({
     begId,
     userId,
@@ -53,10 +57,10 @@ router.post("/jiesuan", async (ctx, next) => {
   // 发送消息
   receiveds.forEach(async (item) => {
     await addMessage({
-      content: `我已结算你的求购商品${item.goodName},我的电话是${phone},地址是${addr}。`,
+      content: `我已结算求购商品${item.begname},我的电话是${phone},地址是${addr}。`,
       userId,
-      receivedId: item.id,
-      receivedName: item.name,
+      receivedId: item.jdId,
+      receivedName: item.jdName,
       userName,
     });
   });

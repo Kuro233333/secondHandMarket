@@ -18,7 +18,8 @@
             <% cartList.forEach(function(item){ %>
             <div class="goods-item" data-begid="<%= item.beg.id %>" data-begcartid="<%= item.id %>"
                 data-count='<%= item.beg.count %>' data-userid="<%= item.user.id %>"
-                data-username="<%= item.user.userName %>" data-begname="<%= item.beg.name %>">
+                data-username="<%= item.user.userName %>" data-begname="<%= item.beg.name %>"
+                data-jdname="<%= item.beg.jdName %>" data-jdid="<%= item.beg.jdId %>">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-1 car-goods-info">
@@ -102,7 +103,9 @@
             receiveds.push({
                 id: items[i].dataset.userid,
                 name: items[i].dataset.username,
-                goodName: items[i].dataset.goodname
+                begname: items[i].dataset.begname,
+                jdName: items[i].dataset.jdname,
+                jdId: items[i].dataset.jdid,
             })
             var begId = items[i].dataset.begid
             beggeds.push({
