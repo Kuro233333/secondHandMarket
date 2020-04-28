@@ -13,7 +13,9 @@
             <div class="prize">
                 ￥ <%= item.price %>.0元
             </div>
-            <button type="button" class="btn btn-primary">加入购物车</button>
+            <button
+                onclick="addToCart('<%= item.id %>','<%= item.count %>','<%= item.userId %>','<%= item.user.userName %>')"
+                type="button" class="btn btn-primary">加入购物车</button>
         </li>
         <% }) %>
     </ul>
@@ -25,6 +27,53 @@
 
 
     })
+
+    function addToCart(goodId, max, ownerId, ownerName) {
+        console.log(goodId)
+        ajax.get('/api/cart/exit/' + goodId, function (err, data) {
+            if (err) {
+                alert(err)
+                return
+            }
+            console.log(data)
+            if (data) {
+                if (data.quantity >= max) {
+                    alert('没有库存了')
+                    return
+                }
+                ajax.post('/api/cart/add', {
+                    cartId: data.id,
+                    quantity: ++data.quantity
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    setTimeout(function () {
+                        alert('加入成功')
+                    }, 300)
+
+                })
+            } else {
+                ajax.post('/api/cart/create', {
+                    goodId,
+                    ownerId,
+                    ownerName
+                }, function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    setTimeout(function () {
+                        alert('加入成功')
+                    }, 300)
+
+                })
+            }
+
+        })
+
+    }
 </script>
 
 <%- include('layout/footer')%>

@@ -149,8 +149,13 @@
                             <div class="label">详情：</div>
                             <textarea readonly="readonly" rows='4' cols='30'>${item.remark}</textarea>
                         </div>
-                        <button onclick="sendMsg('${item.userId}','${item.user.userName}')" style="margin-left: 68px;"
-                            type="button" class="btn btn-primary">点击联系</button>
+                        <div style="display: flex;">
+                            <button onclick="sendMsg('${item.userId}','${item.user.userName}')"
+                                style="margin-left: 28px;" type="button" class="btn btn-primary">点击联系</button>
+                            <button
+                                onclick="addToBegCart(${item.id},'${item.name}',${item.userId},'${item.userName}')"
+                                type="button" style="margin-left: 18px;" class="btn btn-primary">接单</button>
+                        </div>
                     </li>
                 `)
             })
@@ -185,8 +190,13 @@
                             <div class="label">详情：</div>
                             <textarea readonly="readonly" rows='4' cols='30'>${item.remark}</textarea>
                         </div>
-                        <button onclick="sendMsg('${item.userId}','${item.user.userName}')" style="margin-left: 68px;"
-                            type="button" class="btn btn-primary">点击联系</button>
+                        <div style="display: flex;">
+                            <button onclick="sendMsg('${item.userId}','${item.user.userName}')"
+                                style="margin-left: 28px;" type="button" class="btn btn-primary">点击联系</button>
+                            <button
+                                onclick="addToBegCart(${item.id},'${item.name}',${item.userId},'${item.userName}')"
+                                type="button" style="margin-left: 18px;" class="btn btn-primary">接单</button>
+                        </div>
                     </li>
                 `)
             })
@@ -249,8 +259,13 @@
                             <div class="label">详情：</div>
                             <textarea readonly="readonly" rows='4' cols='30'>${item.remark}</textarea>
                         </div>
-                        <button onclick="sendMsg('${item.userId}','${item.user.userName}')" style="margin-left: 68px;"
-                            type="button" class="btn btn-primary">点击联系</button>
+                        <div style="display: flex;">
+                            <button onclick="sendMsg('${item.userId}','${item.user.userName}')"
+                                style="margin-left: 28px;" type="button" class="btn btn-primary">点击联系</button>
+                            <button
+                                onclick="addToBegCart(${item.id},'${item.name}',${item.userId},'${item.userName}')"
+                                type="button" style="margin-left: 18px;" class="btn btn-primary">接单</button>
+                        </div>
                     </li>
                 `)
             })

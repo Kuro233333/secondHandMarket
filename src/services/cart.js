@@ -7,10 +7,12 @@ const { Cart, Good, User } = require("../db/model/index");
 /**
  * 加入购物车
  */
-async function createCart({ userId, goodId }) {
+async function createCart({ userId, goodId, ownerId, ownerName }) {
   const result = await Cart.create({
     userId,
     goodId,
+    ownerId,
+    ownerName,
     quantity: 1,
   });
   return result;
@@ -34,9 +36,6 @@ async function getCarts({ userId }) {
       {
         model: Good,
       },
-      {
-        model: User,
-      },
     ],
   });
 
@@ -44,7 +43,6 @@ async function getCarts({ userId }) {
   console.log(cartList);
   cartList = cartList.map((item) => {
     item.good = item.good.dataValues;
-    item.user = item.user.dataValues;
     return item;
   });
 

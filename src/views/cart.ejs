@@ -19,8 +19,8 @@
             <!--goods display-->
             <% cartList.forEach(function(item){ %>
             <div class="goods-item" data-goodid="<%= item.good.id %>" data-cartid="<%= item.id %>"
-                data-count='<%= item.good.count %>' data-userid="<%= item.user.id %>"
-                data-username="<%= item.user.userName %>" data-goodname="<%= item.good.name %>">
+                data-count='<%= item.good.count %>' data-userid="<%= item.ownerId %>"
+                data-username="<%= item.ownerName %>" data-goodname="<%= item.good.name %>">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-1 car-goods-info">

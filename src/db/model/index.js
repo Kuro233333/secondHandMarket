@@ -52,11 +52,6 @@ Cart.belongsTo(Good, {
   targetKey: "id",
 });
 
-Cart.belongsTo(User, {
-  foreignKey: "userId",
-  targetKey: "id",
-});
-
 MyBought.belongsTo(Good, {
   foreignKey: "goodId",
   targetKey: "id",

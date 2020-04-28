@@ -21,11 +21,13 @@ router.prefix("/api/cart");
 // 注册路由
 
 router.post("/create", async (ctx, next) => {
-  const { goodId } = ctx.request.body;
+  const { goodId, ownerId, ownerName } = ctx.request.body;
   const { id: userId } = ctx.session.userInfo;
   const result = await addCart({
     goodId,
     userId,
+    ownerId,
+    ownerName,
   });
   ctx.body = result;
 });

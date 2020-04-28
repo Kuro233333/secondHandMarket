@@ -21,6 +21,24 @@
     <link type="text/css" rel="stylesheet" href="/css/cart.css" />
     <% } %>
     <link href="/css/main.css" rel="stylesheet">
+    <style>
+        .red-point {
+            position: relative;
+        }
+
+        .red-point::before {
+            content: " ";
+            border: 3px solid red;
+            /*设置红色*/
+            border-radius: 3px;
+            /*设置圆角*/
+            position: absolute;
+            z-index: 1000;
+            right: 0%;
+            margin-right: 70px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,7 +60,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item my-drop-down" href="/cart">购物车</a>
                     <a class="dropdown-item my-drop-down" href="/begcart">求购商品结算</a>
-                    <a class="dropdown-item my-drop-down" href="/msg">我的消息</a>
+                    <a class="dropdown-item my-drop-down" id="msg-item" href="/msg">我的消息</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item my-drop-down" href="/myboughts">我的已购商品</a>
                     <a class="dropdown-item my-drop-down" href="/mybegged">我的接单栏</a>
@@ -92,6 +110,21 @@
                     location.href = '/'
                 })
             })
+            setInterval(() => {
+                ajax.get('/api/message/isHasNoRead', function (err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    console.log(data)
+                    if (data && data.length > 0) {
+                        $("#msg-item").addClass('red-point')
+                    } else {
+                        $("#msg-item").removeClass('red-point')
+                    }
+                })
+            }, 800);
+
         })
 
         function search() {
