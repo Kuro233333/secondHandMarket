@@ -2,15 +2,15 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title><%= title%></title>
-    <link href="/css/reset.css" rel="stylesheet">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/reset.css" rel="stylesheet" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
 
-    <link href="/iconfont/iconfont.css" rel="stylesheet">
-    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet" />
 
     <!-- jquery 要首先引入-->
     <script src="/js/jquery-3.4.1.min.js"></script>
@@ -20,7 +20,7 @@
     <link type="text/css" rel="stylesheet" href="/css/bootstrap3.css" />
     <link type="text/css" rel="stylesheet" href="/css/cart.css" />
     <% } %>
-    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet" />
     <style>
         .red-point {
             position: relative;
@@ -47,7 +47,7 @@
             <a class="title" href="/">C2C</a>
 
             <div class="search">
-                <input type="text" placeholder="商品查询" name="search" class="nav_search_input">
+                <input type="text" placeholder="商品查询" name="search" class="nav_search_input" />
                 <i onclick="search()" class="iconfont iconfangdajing"></i>
             </div>
 
@@ -74,8 +74,12 @@
                     <a id="btn-logout" class="dropdown-item my-drop-down">退出</a>
                 </div>
                 <% } else { %>
-                <button onclick="window.location.href='/login'" type="button" class="btn btn-link">登录</button>
-                <button onclick="window.location.href='/register'" type="button" class="btn btn-link">注册</button>
+                <button onclick="window.location.href='/login'" type="button" class="btn btn-link">
+                    登录
+                </button>
+                <button onclick="window.location.href='/register'" type="button" class="btn btn-link">
+                    注册
+                </button>
                 <% } %>
             </div>
         </div>
@@ -97,19 +101,19 @@
     <script>
         $(function () {
             // 退出登录
-            $('#btn-logout').click(function () {
-                if (confirm('是否确定退出登录？') === false) {
-                    return
+            $("#btn-logout").click(function () {
+                if (confirm("是否确定退出登录？") === false) {
+                    return;
                 }
-                ajax.post('/api/user/logout', function (err, data) {
+                ajax.post("/api/user/logout", function (err, data) {
                     if (err) {
-                        console.error(err)
-                        return
+                        console.error(err);
+                        return;
                     }
-                    alert('已成功退出')
-                    location.href = '/'
-                })
-            })
+                    alert("已成功退出");
+                    location.href = "/";
+                });
+            });
             setInterval(() => {
                 ajax.get('/api/message/isHasNoRead', function (err, data) {
                     if (err) {
@@ -124,14 +128,16 @@
                     }
                 })
             }, 800);
-
-        })
+        });
 
         function search() {
-            if (!$('.nav_search_input').val()) {
-                alert("请输入搜索关键字~")
-                return
+            if (!$(".nav_search_input").val()) {
+                alert("请输入搜索关键字~");
+                return;
             }
-            window.location.href = '/search/' + $('.nav_search_input').val()
+            window.location.href = "/search/" + $(".nav_search_input").val();
         }
     </script>
+</body>
+
+</html>

@@ -6,7 +6,7 @@
             <input id="keyword-input" type="text" class="form-control" placeholder="求购商品搜索关键字"
                 aria-label="Recipient's username" aria-describedby="button-addon2">
             <div class="input-group-append">
-                <button onclick="search()" class="btn btn-outline-secondary" type="button"
+                <button onclick="searchBeg()" class="btn btn-outline-secondary" type="button"
                     id="button-addon2">搜索</button>
             </div>
         </div>
@@ -121,9 +121,10 @@
 
     window.mallPageIndex = 0;
 
-    function search() {
+    function searchBeg() {
         var keyword = $('#keyword-input').val()
-        ajax.get('/api/beg/list/0?keyword=' + keyword, function (err, data) {
+        console.log(keyword)
+        ajax.get('/api/beg/list/0?keyword=' + encodeURIComponent(keyword), function (err, data) {
             if (err) {
                 alert(err)
                 return

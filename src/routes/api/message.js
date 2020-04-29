@@ -25,9 +25,8 @@ router.post("/create", async (ctx, next) => {
 });
 
 router.get("/isHasNoRead", async (ctx, next) => {
-  const { id: userId, userName } = ctx.session.userInfo;
-
-  if (userId) {
+  if (ctx.session.userInfo) {
+    const { id: userId, userName } = ctx.session.userInfo;
     const result = await isHasNoRead({
       userId,
     });
