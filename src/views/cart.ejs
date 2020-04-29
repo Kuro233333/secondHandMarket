@@ -44,7 +44,8 @@
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default car-decrease">-</button>
                                 </div>
-                                <input type="text" class="form-control goods-count" value="<%= item.quantity %>">
+                                <input type="text" oninput="countChange('<%= item.good.count %>',this)"
+                                    class="form-control goods-count" value="<%= item.quantity %>">
                                 <div class="input-group-btn">
                                     <button type="button" onclick="addCount('<%= item.good.count %>',this )"
                                         class="btn btn-default car-add">+</button>
@@ -109,6 +110,14 @@
 </div>
 
 <script>
+    function countChange(count, that) {
+        console.log(count, that.value)
+        if (parseInt(that.value) >= parseInt(count)) {
+            that.value = count
+            return
+        }
+    }
+
     function submitMoney() {
         var boughts = []
         var cartIds = []
